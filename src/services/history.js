@@ -1,4 +1,4 @@
-import { createBrowerHitory } from 'histoy';
+import { createBrowerHitory } from 'history';
 
 const histoy = createBrowerHitory();
 
