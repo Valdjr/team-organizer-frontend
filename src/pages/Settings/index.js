@@ -2,6 +2,6 @@ import React from 'react';
 
 // import { Container } from './styles';
 
-export default function Teams() {
-  return <h1>Teams</h1>;
+export default function Settings() {
+  return <h1>Settings</h1>;
 }

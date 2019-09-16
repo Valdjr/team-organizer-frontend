@@ -1,7 +1,7 @@
 import React from 'react';
 
-// import { Container } from './styles';
+// import { Content } from './styles';
 
 export default function Users() {
-  return <div />;
+  return <h1>Users</h1>;
 }
