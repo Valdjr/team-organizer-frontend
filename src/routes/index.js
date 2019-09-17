@@ -10,6 +10,7 @@ import Settings from '../pages/Settings';
 export default function Routes() {
   return (
     <Switch>
+      <Route path="/" component={() => {}} exact />
       <Route path="/dashboard" component={Dashboard} isPrivate />
       <Route path="/users" component={Users} isPrivate />
       <Route path="/teams" component={Teams} isPrivate />

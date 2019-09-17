@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,700,700i&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Roboto+Mono:100,200,400,700,700i&display=swap');
 
   *{
     margin:0;
@@ -23,7 +23,7 @@ export default createGlobalStyle`
   }
 
   body, input, button{
-    font: 14px 'Roboto Mono', monospace;
+    font: 15px 'Roboto Mono', monospace;
     color: #3E3E3E;
   }
 
@@ -42,4 +42,10 @@ export default createGlobalStyle`
   h1{
     font-size: 70px;
   }
+
+  div.divider{
+    height: 23px;
+    border-right: 1px solid #C5C5C5;
+  }
+
 `;
