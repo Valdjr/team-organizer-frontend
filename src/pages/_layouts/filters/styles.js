@@ -64,9 +64,7 @@ export const Dropdown = styled(Select)`
 `;
 
 export const InputNaked = styled(InputBase)`
-  &::placeholder,
-  &:-ms-input-placeholder,
-  &::-ms-input-placeholder {
+  &::placeholder {
     font-weight: lighter;
     color: #c5c5c5;
   }
