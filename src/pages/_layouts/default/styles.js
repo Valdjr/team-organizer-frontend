@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
+  width: 100%;
   height: 100%;
   background: #fff;
 `;
@@ -93,6 +94,6 @@ export const Content = styled.div`
     padding-top: 45px;
   }
   @media only screen and (max-width: 768px) {
-    padding-left: 45px;
+    padding-left: 25px;
   }
 `;
