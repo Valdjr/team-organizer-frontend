@@ -14,62 +14,51 @@ import {
 } from './styles';
 
 export default function Users() {
-  const filterby = {
-    width: '67px',
-    dropdown: [
-      {
-        name: 'Name',
-        value: 'name',
-        selected: true,
-      },
-      {
-        name: 'Age',
-        value: 'age',
-        selected: false,
-      },
-    ],
-  };
+  const filterby = [
+    {
+      name: 'Name',
+      value: 'name',
+      selected: true,
+    },
+    {
+      name: 'Age',
+      value: 'age',
+      selected: false,
+    },
+  ];
 
-  const sortby = {
-    width: '104px',
-    dropdown: [
-      {
-        name: 'Roles',
-        value: 'roles',
-        selected: true,
-      },
-      {
-        name: 'Experience',
-        value: 'experience',
-        selected: false,
-      },
-      {
-        name: 'Nivel',
-        value: 'nivel',
-        selected: false,
-      },
-    ],
-  };
+  const sortby = [
+    {
+      name: 'Roles',
+      value: 'roles',
+      selected: true,
+    },
+    {
+      name: 'Experience',
+      value: 'experience',
+      selected: false,
+    },
+    {
+      name: 'Nivel',
+      value: 'nivel',
+      selected: false,
+    },
+  ];
 
   return (
     <>
       <h1>Users</h1>
-      <Filter
-        filterwWidth={450}
-        filterby={filterby}
-        sortWidth={230}
-        sortby={sortby}
-      />
+      <Filter filterby={filterby} sortby={sortby} />
       <ContentResults>
         <Group>
           <GroupTitle>DESIGN (1)</GroupTitle>
           <Participants>
             <Participant>
               <ParticipantCard>
-                <img src={caio} />
+                <img src={caio} alt="Caio" />
                 <RoleTitle>DESIGNER</RoleTitle>
               </ParticipantCard>
-              <ParticipantName>Paulo</ParticipantName>
+              <ParticipantName>Caio</ParticipantName>
             </Participant>
           </Participants>
         </Group>

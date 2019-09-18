@@ -46,6 +46,13 @@ export default createGlobalStyle`
   div.divider{
     height: 23px;
     border-right: 1px solid #C5C5C5;
+    margin: 0 7px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    h1{
+      font-size: 60px;
+    }
   }
 
 `;

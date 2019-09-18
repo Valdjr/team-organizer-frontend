@@ -6,26 +6,23 @@ import Filter from '../_layouts/filters';
 import { ContentTitleButton } from './styles';
 
 export default function Teams() {
-  const filterby = {
-    width: '70px',
-    dropdown: [
-      {
-        name: 'Team',
-        value: 'team',
-        selected: true,
-      },
-      {
-        name: 'Role',
-        value: 'role',
-        selected: false,
-      },
-      {
-        name: 'Score',
-        value: 'score',
-        selected: false,
-      },
-    ],
-  };
+  const filterby = [
+    {
+      name: 'Team',
+      value: 'team',
+      selected: true,
+    },
+    {
+      name: 'Role',
+      value: 'role',
+      selected: false,
+    },
+    {
+      name: 'Score',
+      value: 'score',
+      selected: false,
+    },
+  ];
   return (
     <>
       <ContentTitleButton>
@@ -35,7 +32,7 @@ export default function Teams() {
           AUTO SORT TEAM
         </Button>
       </ContentTitleButton>
-      <Filter filterwWidth={450} filterby={filterby} />
+      <Filter filterby={filterby} />
     </>
   );
 }
