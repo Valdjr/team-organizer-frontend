@@ -89,7 +89,7 @@ export const Profile = styled.aside`
 export const Content = styled.div`
   width: auto;
   margin-left: 70px;
-  padding: 30px 90px 0 70px;
+  padding: 30px 90px 40px 70px;
   @media only screen and (max-width: 992px) {
     padding-top: 45px;
   }

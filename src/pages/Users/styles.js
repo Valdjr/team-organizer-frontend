@@ -3,6 +3,9 @@ import { Card } from '@material-ui/core';
 
 export const ContentResults = styled.div`
   padding-top: 50px;
+  & > *:not(:first-child) {
+    margin-top: 40px;
+  }
 `;
 
 export const Group = styled.div`
@@ -15,7 +18,12 @@ export const GroupTitle = styled.h2`
   margin-bottom: 10px;
 `;
 
-export const Participants = styled.div``;
+export const Participants = styled.div`
+  display: flex;
+  & > *:not(:last-child) {
+    margin-right: 30px;
+  }
+`;
 
 export const Participant = styled.div`
   display: flex;

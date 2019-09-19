@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MenuItem } from '@material-ui/core';
 import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownOutlined';
 import { MdSearch } from 'react-icons/md';
+
+import { filterUsersRequest } from '../../../store/modules/filterUsers/actions';
 
 import {
   ContentFilters,
@@ -14,7 +17,24 @@ import {
   ContentSearch,
 } from './styles';
 
-export default function Filters({ filterby, sortby }) {
+let timer = null;
+
+export default function Filters({ filterby, sortby, who }) {
+  const dispatch = useDispatch();
+
+  const [search, setSearch] = useState('');
+  function handleSearch(event) {
+    clearTimeout(timer);
+    if (event.type === 'keydown' && event.keyCode === 13) {
+      // executeFilter();
+    } else if (event.type === 'change') {
+      setSearch(event.target.value);
+      timer = setTimeout(() => {
+        // executeFilter();
+      }, 1300);
+    }
+  }
+
   const [filter, setFilter] = useState(
     filterby.length > 0 ? filterby.find(x => x.selected === true).value : ''
   );
@@ -29,11 +49,26 @@ export default function Filters({ filterby, sortby }) {
     setSort(event.target.value);
   }
 
+  useEffect(() => {
+    switch (who) {
+      case 'users':
+        dispatch(filterUsersRequest(filter, search, sort));
+        console.log('oie');
+        break;
+      case 'teams':
+        // dispatch(filterUsersRequest(filter, search));
+        break;
+      default:
+        break;
+    }
+  }, [dispatch, filter, search, sort, who]);
+
   const [widthFilter, setWidthFilter] = useState('0px');
   const [widthSort, setWidthSort] = useState('0px');
   useEffect(() => {
     const widthFontCalc = nameLength =>
       (nameLength < 8 ? nameLength * 15 : nameLength * 10) + 7;
+
     if (filterby.length > 0) {
       const currentWidth = Number(widthFilter.slice(0, -2));
       filterby.map(filterD => {
@@ -80,9 +115,12 @@ export default function Filters({ filterby, sortby }) {
           <ContentSearch>
             <MdSearch color="#000" size={25} />
             <InputNaked
+              type="search"
+              value={search}
               placeholder="SEARCH..."
               inputProps={{ 'aria-label': 'SEARCH...' }}
-              type="search"
+              onChange={handleSearch}
+              onKeyDown={handleSearch}
             />
           </ContentSearch>
         </CardContentS>
@@ -126,6 +164,7 @@ Filters.propTypes = {
       selected: PropTypes.bool,
     })
   ),
+  who: PropTypes.string.isRequired,
 };
 
 Filters.defaultProps = {
