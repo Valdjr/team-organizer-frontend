@@ -1,4 +1,6 @@
-import React from 'react';
+import React from 'react'
+
+import { connect } from 'react-redux';
 
 import store from '../../store';
 import Filter from '../_layouts/filters';
@@ -44,7 +46,7 @@ const sortby = [
   },
 ];
 
-export default function Users() {
+function Users() {
   const { users: grouped } = store.getState().filterUsers;
   return (
     <>
@@ -73,3 +75,7 @@ export default function Users() {
     </>
   );
 }
+
+export default connect(state =>({
+  grouped: state.filterUsers
+}))(Users);
