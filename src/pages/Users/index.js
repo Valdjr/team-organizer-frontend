@@ -2,7 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import Filter from '../_layouts/filters';
-import { ContentResults, Loading } from '../../styles/global';
+import {
+  ContentResults,
+  SimpleInformation,
+  ContentExperience,
+} from '../../styles/global';
 import {
   Group,
   GroupTitle,
@@ -22,11 +26,6 @@ const filterby = [
   {
     name: 'Email',
     value: 'email',
-    selected: false,
-  },
-  {
-    name: 'Team',
-    value: 'team',
     selected: false,
   },
 ];
@@ -55,27 +54,44 @@ export default function Users() {
       <Filter filterby={filterby} sortby={sortby} who="users" />
       <ContentResults>
         {loading ? (
-          <Loading>Loading...</Loading>
+          <SimpleInformation>Loading...</SimpleInformation>
         ) : (
           <>
-            {resultUsers.map(group => (
-              <Group key={`${group.id}-${group.name}`}>
-                <GroupTitle>
-                  {group.name} ({group.users.length})
-                </GroupTitle>
-                <Participants>
-                  {group.users.map(user => (
-                    <Participant key={`${user.id}-${user.name}`}>
-                      <ParticipantCard>
-                        <img src={user.avatar} alt={user.name} />
-                        <RoleTitle>{group.name}</RoleTitle>
-                      </ParticipantCard>
-                      <ParticipantName>{user.name}</ParticipantName>
-                    </Participant>
-                  ))}
-                </Participants>
-              </Group>
-            ))}
+            {resultUsers.length > 0 ? (
+              <>
+                {resultUsers.map(group => (
+                  <Group key={`${group.id}-${group.name}`}>
+                    <GroupTitle>
+                      {group.expr ? (
+                        <>
+                          <span>Exp</span>
+                          <ContentExperience>{group.name}</ContentExperience>
+                        </>
+                      ) : (
+                        <span>{group.name}</span>
+                      )}
+                      <span>({group.users.length})</span>
+                    </GroupTitle>
+                    <Participants>
+                      {group.users.map(user => (
+                        <Participant key={`${user.id}-${user.name}`}>
+                          <ParticipantCard>
+                            <img src={user.avatar} alt={user.name} />
+                            <RoleTitle>{user.role_name}</RoleTitle>
+                          </ParticipantCard>
+                          <ParticipantName>{user.name}</ParticipantName>
+                        </Participant>
+                      ))}
+                    </Participants>
+                  </Group>
+                ))}
+              </>
+            ) : (
+              <SimpleInformation>
+                Nothing found!
+                <span>Try removing filters or type new search terms.</span>
+              </SimpleInformation>
+            )}
           </>
         )}
       </ContentResults>

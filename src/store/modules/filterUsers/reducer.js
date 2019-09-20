@@ -2,7 +2,7 @@ import produce from 'immer';
 
 const INITIAL_STATE = {
   users: [],
-  loading: false,
+  loading: true,
 };
 
 export default function filterUsers(state = INITIAL_STATE, action) {

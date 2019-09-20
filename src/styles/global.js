@@ -7,9 +7,27 @@ export const ContentResults = styled.div`
   }
 `;
 
-export const Loading = styled.h2`
-  font-size: 40px;
+export const SimpleInformation = styled.h2`
+  display: flex;
+  flex-direction: column;
+  font-size: 50px;
   color: #c5c5c5;
+
+  & span {
+    font-size: 15px;
+  }
+`;
+
+export const ContentExperience = styled.span`
+  background: #21c62c;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 50px;
+  font-size: 25px;
+  border-radius: 23px;
+  color: #fff;
 `;
 
 export default createGlobalStyle`

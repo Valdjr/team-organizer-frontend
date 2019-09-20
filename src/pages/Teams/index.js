@@ -32,7 +32,7 @@ export default function Teams() {
           AUTO SORT TEAM
         </Button>
       </ContentTitleButton>
-      <Filter filterby={filterby} />
+      <Filter filterby={filterby} who="team" />
     </>
   );
 }
