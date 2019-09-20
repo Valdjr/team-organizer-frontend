@@ -1,4 +1,16 @@
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
+
+export const ContentResults = styled.div`
+  padding-top: 40px;
+  & > *:not(:first-child) {
+    margin-top: 40px;
+  }
+`;
+
+export const Loading = styled.h2`
+  font-size: 40px;
+  color: #c5c5c5;
+`;
 
 export default createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Roboto+Mono:100,200,400,700,700i&display=swap');
@@ -54,5 +66,4 @@ export default createGlobalStyle`
       font-size: 60px;
     }
   }
-
 `;

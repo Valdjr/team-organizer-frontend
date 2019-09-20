@@ -1,11 +1,9 @@
-import React from 'react'
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-import { connect } from 'react-redux';
-
-import store from '../../store';
 import Filter from '../_layouts/filters';
+import { ContentResults, Loading } from '../../styles/global';
 import {
-  ContentResults,
   Group,
   GroupTitle,
   Participants,
@@ -46,36 +44,41 @@ const sortby = [
   },
 ];
 
-function Users() {
-  const { users: grouped } = store.getState().filterUsers;
+export default function Users() {
+  const { loading, users: resultUsers } = useSelector(
+    state => state.filterUsers
+  );
+
   return (
     <>
       <h1>Users</h1>
       <Filter filterby={filterby} sortby={sortby} who="users" />
       <ContentResults>
-        {grouped.map(group => (
-          <Group key={group.id}>
-            <GroupTitle>
-              {group.name} ({group.users.length})
-            </GroupTitle>
-            <Participants>
-              {group.users.map(user => (
-                <Participant key={user.id}>
-                  <ParticipantCard>
-                    <img src={user.avatar} alt={user.name} />
-                    <RoleTitle>{group.name}</RoleTitle>
-                  </ParticipantCard>
-                  <ParticipantName>{user.name}</ParticipantName>
-                </Participant>
-              ))}
-            </Participants>
-          </Group>
-        ))}
+        {loading ? (
+          <Loading>Loading...</Loading>
+        ) : (
+          <>
+            {resultUsers.map(group => (
+              <Group key={`${group.id}-${group.name}`}>
+                <GroupTitle>
+                  {group.name} ({group.users.length})
+                </GroupTitle>
+                <Participants>
+                  {group.users.map(user => (
+                    <Participant key={`${user.id}-${user.name}`}>
+                      <ParticipantCard>
+                        <img src={user.avatar} alt={user.name} />
+                        <RoleTitle>{group.name}</RoleTitle>
+                      </ParticipantCard>
+                      <ParticipantName>{user.name}</ParticipantName>
+                    </Participant>
+                  ))}
+                </Participants>
+              </Group>
+            ))}
+          </>
+        )}
       </ContentResults>
     </>
   );
 }
-
-export default connect(state =>({
-  grouped: state.filterUsers
-}))(Users);

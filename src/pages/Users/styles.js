@@ -1,20 +1,13 @@
 import styled from 'styled-components';
 import { Card } from '@material-ui/core';
 
-export const ContentResults = styled.div`
-  padding-top: 50px;
-  & > *:not(:first-child) {
-    margin-top: 40px;
-  }
-`;
-
 export const Group = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
 export const GroupTitle = styled.h2`
-  font-size: 40px;
+  font-size: 35px;
   margin-bottom: 10px;
 `;
 
@@ -45,7 +38,7 @@ export const ParticipantCard = styled(Card)`
 `;
 
 export const RoleTitle = styled.h3`
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 800;
   padding: 10px 0;
 `;

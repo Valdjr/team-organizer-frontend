@@ -23,45 +23,51 @@ export default function Filters({ filterby, sortby, who }) {
   const dispatch = useDispatch();
 
   const [search, setSearch] = useState('');
-  function handleSearch(event) {
-    clearTimeout(timer);
-    if (event.type === 'keydown' && event.keyCode === 13) {
-      // executeFilter();
-    } else if (event.type === 'change') {
-      setSearch(event.target.value);
-      timer = setTimeout(() => {
-        // executeFilter();
-      }, 1300);
-    }
-  }
-
   const [filter, setFilter] = useState(
     filterby.length > 0 ? filterby.find(x => x.selected === true).value : ''
   );
-  function handleChangeFilter(event) {
-    setFilter(event.target.value);
-  }
-
   const [sort, setSort] = useState(
     sortby.length > 0 ? sortby.find(x => x.selected === true).value : ''
   );
-  function handleChangeSort(event) {
-    setSort(event.target.value);
-  }
+  const [par, setPar] = useState({
+    filter,
+    search,
+    sort,
+  });
 
   useEffect(() => {
     switch (who) {
       case 'users':
-        dispatch(filterUsersRequest(filter, search, sort));
-        console.log('oie');
+        dispatch(filterUsersRequest(par.filter, par.search, par.sort));
         break;
       case 'teams':
-        // dispatch(filterUsersRequest(filter, search));
+        dispatch(filterUsersRequest(par.filter, par.search));
         break;
       default:
-        break;
     }
-  }, [dispatch, filter, search, sort, who]);
+  }, [dispatch, par, who]);
+
+  function handleSearch(event) {
+    clearTimeout(timer);
+    const currentValue = event.target.value;
+    if (event.type === 'keydown' && event.keyCode === 13) {
+      setPar({ filter, search: currentValue, sort });
+    } else {
+      setSearch(currentValue);
+      timer = setTimeout(() => {
+        setPar({ filter, search: currentValue, sort });
+      }, 800);
+    }
+  }
+
+  function handleChangeFilter(event) {
+    setFilter(event.target.value);
+  }
+
+  function handleChangeSort(event) {
+    setSort(event.target.value);
+    setPar({ filter, search, sort: event.target.value });
+  }
 
   const [widthFilter, setWidthFilter] = useState('0px');
   const [widthSort, setWidthSort] = useState('0px');

@@ -6,12 +6,23 @@ const INITIAL_STATE = {
 };
 
 export default function filterUsers(state = INITIAL_STATE, action) {
-  switch (action.type) {
-    case '@filterUsers/SUCCESS':
-      return produce(state, draft => {
+  return produce(state, draft => {
+    switch (action.type) {
+      case '@filterUsers/REQUEST': {
+        draft.loading = true;
+        break;
+      }
+      case '@filterUsers/SUCCESS': {
         draft.users = action.payload.users;
-      });
-    default:
-      return state;
-  }
+        draft.loading = false;
+        break;
+      }
+      case '@filterUsers/FAILURE': {
+        draft.users = action.payload.users;
+        draft.loading = false;
+        break;
+      }
+      default:
+    }
+  });
 }
