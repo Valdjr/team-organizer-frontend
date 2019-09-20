@@ -16,6 +16,7 @@ export const GroupTitle = styled.h2`
 
 export const Participants = styled.div`
   display: flex;
+  width: fit-content;
   & > *:not(:last-child) {
     margin-right: 30px;
   }
