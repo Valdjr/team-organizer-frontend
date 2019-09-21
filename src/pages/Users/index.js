@@ -5,7 +5,7 @@ import Filter from '../_layouts/filters';
 import {
   ContentResults,
   SimpleInformation,
-  ContentExperience,
+  ContentScore,
 } from '../../styles/global';
 import {
   Group,
@@ -37,8 +37,8 @@ const sortby = [
     selected: true,
   },
   {
-    name: 'Experience',
-    value: 'exp',
+    name: 'Score',
+    value: 'score',
     selected: false,
   },
 ];
@@ -62,10 +62,10 @@ export default function Users() {
                 {resultUsers.map(group => (
                   <Group key={`${group.id}-${group.name}`}>
                     <GroupTitle>
-                      {group.expr ? (
+                      {group.score ? (
                         <>
-                          <span>Exp</span>
-                          <ContentExperience>{group.name}</ContentExperience>
+                          <span>Score</span>
+                          <ContentScore>{group.name}</ContentScore>
                         </>
                       ) : (
                         <span>{group.name}</span>
@@ -77,7 +77,9 @@ export default function Users() {
                         <Participant key={`${user.id}-${user.name}`}>
                           <ParticipantCard>
                             <img src={user.avatar} alt={user.name} />
-                            <RoleTitle>{user.role_name}</RoleTitle>
+                            <RoleTitle>
+                              {user.role_id.name.toUpperCase()}
+                            </RoleTitle>
                           </ParticipantCard>
                           <ParticipantName>{user.name}</ParticipantName>
                         </Participant>

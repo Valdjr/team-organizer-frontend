@@ -18,7 +18,7 @@ export const SimpleInformation = styled.h2`
   }
 `;
 
-export const ContentExperience = styled.span`
+export const ContentScore = styled.span`
   background: #21c62c;
   display: inline-flex;
   align-items: center;
