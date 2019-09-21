@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import Dotdotdot from 'react-dotdotdot';
 
 import Filter from '../_layouts/filters';
 import {
@@ -74,14 +75,21 @@ export default function Users() {
                     </GroupTitle>
                     <Participants>
                       {group.users.map(user => (
-                        <Participant key={`${user.id}-${user.name}`}>
+                        <Participant
+                          key={`${user.id}-${user.name}`}
+                          title={user.name}
+                        >
                           <ParticipantCard>
                             <img src={user.avatar} alt={user.name} />
                             <RoleTitle>
                               {user.role_id.name.toUpperCase()}
                             </RoleTitle>
                           </ParticipantCard>
-                          <ParticipantName>{user.name}</ParticipantName>
+                          <ParticipantName>
+                            <Dotdotdot clamp={2}>
+                              {user.name.substring(0, user.name.indexOf(' '))}
+                            </Dotdotdot>
+                          </ParticipantName>
                         </Participant>
                       ))}
                     </Participants>

@@ -18,7 +18,6 @@ export default function filterUsers(state = INITIAL_STATE, action) {
         break;
       }
       case '@filterUsers/FAILURE': {
-        draft.users = action.payload.users;
         draft.loading = false;
         break;
       }
