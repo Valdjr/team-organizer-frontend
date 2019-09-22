@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Dotdotdot from 'react-dotdotdot';
+import empty from 'is-empty';
 
 import Filter from '../_layouts/filters';
 import {
@@ -61,38 +63,46 @@ export default function Users() {
             {resultUsers.length > 0 ? (
               <>
                 {resultUsers.map(group => (
-                  <Group key={`${group.id}-${group.name}`}>
-                    <GroupTitle>
-                      {group.score ? (
-                        <>
-                          <span>Score</span>
-                          <ContentScore>{group.name}</ContentScore>
-                        </>
-                      ) : (
-                        <span>{group.name}</span>
-                      )}
-                      <span>({group.users.length})</span>
-                    </GroupTitle>
-                    <Participants>
-                      {group.users.map(user => (
-                        <Participant
-                          key={`${user.id}-${user.name}`}
-                          title={user.name}
-                        >
-                          <ParticipantCard>
-                            <img src={user.avatar} alt={user.name} />
-                            <RoleTitle>
-                              {user.role_id.name.toUpperCase()}
-                            </RoleTitle>
-                          </ParticipantCard>
-                          <ParticipantName>
-                            <Dotdotdot clamp={2}>
-                              {user.name.substring(0, user.name.indexOf(' '))}
-                            </Dotdotdot>
-                          </ParticipantName>
-                        </Participant>
-                      ))}
-                    </Participants>
+                  <Group key={`${group._id || Math.random() * 10}`}>
+                    {!empty(group.users) ? (
+                      <>
+                        <GroupTitle>
+                          {group.score ? (
+                            <>
+                              <span>Score</span>
+                              <ContentScore>{group.name}</ContentScore>
+                            </>
+                          ) : (
+                            <span>{group.name}</span>
+                          )}
+                          <span>({group.users.length})</span>
+                        </GroupTitle>
+                        <Participants>
+                          {group.users.map(user => (
+                            <Participant key={`${user._id}`}>
+                              <Link to={`/user/${user._id}`} title={user.name}>
+                                <ParticipantCard>
+                                  <img src={user.avatar} alt={user.name} />
+                                  <RoleTitle>
+                                    {user.role_id.name.toUpperCase()}
+                                  </RoleTitle>
+                                </ParticipantCard>
+                                <ParticipantName>
+                                  <Dotdotdot clamp={2}>
+                                    {user.name.substring(
+                                      0,
+                                      user.name.indexOf(' ')
+                                    )}
+                                  </Dotdotdot>
+                                </ParticipantName>
+                              </Link>
+                            </Participant>
+                          ))}
+                        </Participants>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </Group>
                 ))}
               </>

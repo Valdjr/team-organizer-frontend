@@ -1,7 +1,7 @@
-export function filterUsersRequest(filter, search, sort) {
+export function filterUsersRequest(collectionFilters) {
   return {
     type: '@filterUsers/REQUEST',
-    payload: { filter, search, sort },
+    payload: collectionFilters,
   };
 }
 

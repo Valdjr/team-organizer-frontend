@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
 import Route from './Route';
 
 import Dashboard from '../pages/Dashboard';
@@ -17,6 +17,7 @@ export default function Routes() {
       <Route path="/users" component={Users} isPrivate />
       <Route path="/teams" component={Teams} isPrivate />
       <Route path="/settings" component={Settings} isPrivate />
+      <Redirect to="/" />
     </Switch>
   );
 }

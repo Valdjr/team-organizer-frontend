@@ -27,7 +27,9 @@ export const Participant = styled.div`
   flex-direction: column;
   align-items: center;
   width: 130px;
-  cursor: pointer;
+  a {
+    text-decoration: none;
+  }
 `;
 
 export const ParticipantCard = styled(Card)`
@@ -51,4 +53,8 @@ export const ParticipantName = styled.h4`
   font-size: 15px;
   font-weight: 400;
   letter-spacing: 2px;
+  text-align: center;
+  div {
+    color: #3e3e3e;
+  }
 `;

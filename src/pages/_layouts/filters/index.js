@@ -38,7 +38,13 @@ export default function Filters({ filterby, sortby, who }) {
   useEffect(() => {
     switch (who) {
       case 'users':
-        dispatch(filterUsersRequest(par.filter, par.search, par.sort));
+        dispatch(
+          filterUsersRequest({
+            filter: par.filter,
+            search: par.search,
+            sort: par.sort,
+          })
+        );
         break;
       case 'teams':
         dispatch(filterUsersRequest(par.filter, par.search));
