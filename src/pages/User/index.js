@@ -8,7 +8,6 @@ import { SimpleInformation, ContentResults } from '../../styles/global';
 // import { Container } from './styles';
 
 export default function User({ match }) {
-  console.log(process.env.NODE_ENV);
   const dispatch = useDispatch();
   const { id } = match.params;
 
