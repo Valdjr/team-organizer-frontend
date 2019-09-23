@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Dotdotdot from 'react-dotdotdot';
 import empty from 'is-empty';
+import crypto from 'crypto';
 
 import Filter from '../_layouts/filters';
 import {
-  ContentResults,
+  ContentPage,
   SimpleInformation,
   ContentScore,
 } from '../../styles/global';
@@ -51,11 +52,19 @@ export default function Users() {
     state => state.filterUsers
   );
 
+  function cryptIdName(idName) {
+    const cipher = crypto.createCipher(
+      'aes-256-ctr',
+      process.env.REACT_APP_SECRET_PASSWORD
+    );
+    return cipher.update(idName, 'utf8', 'hex');
+  }
+
   return (
     <>
       <h1>Users</h1>
       <Filter filterby={filterby} sortby={sortby} who="users" />
-      <ContentResults>
+      <ContentPage>
         {loading ? (
           <SimpleInformation>Loading...</SimpleInformation>
         ) : (
@@ -80,7 +89,12 @@ export default function Users() {
                         <Participants>
                           {group.users.map(user => (
                             <Participant key={`${user._id}`}>
-                              <Link to={`/user/${user._id}`} title={user.name}>
+                              <Link
+                                to={`/user/${cryptIdName(
+                                  `${user._id}-${user.name}`
+                                )}`}
+                                title={user.name}
+                              >
                                 <ParticipantCard>
                                   <img src={user.avatar} alt={user.name} />
                                   <RoleTitle>
@@ -114,7 +128,7 @@ export default function Users() {
             )}
           </>
         )}
-      </ContentResults>
+      </ContentPage>
     </>
   );
 }

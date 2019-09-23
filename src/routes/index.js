@@ -12,7 +12,7 @@ export default function Routes() {
   return (
     <Switch>
       <Route path="/" component={() => {}} exact />
-      <Route path="/user/:id" component={User} isPrivate />
+      <Route path="/user/:ctyptoIdName" component={User} isPrivate />
       <Route path="/dashboard" component={Dashboard} isPrivate />
       <Route path="/users" component={Users} isPrivate />
       <Route path="/teams" component={Teams} isPrivate />

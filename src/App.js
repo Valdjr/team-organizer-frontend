@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import { Provider } from 'react-redux';
@@ -12,6 +11,8 @@ import history from './services/history';
 import store from './store';
 
 import GlobalStyle from './styles/global';
+
+require('dotenv/config');
 
 function App() {
   return (
