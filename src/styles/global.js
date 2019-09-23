@@ -1,7 +1,7 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const ContentResults = styled.div`
+export const ContentPage = styled.div`
   padding-top: 40px;
   & > *:not(:first-child) {
     margin-top: 40px;
