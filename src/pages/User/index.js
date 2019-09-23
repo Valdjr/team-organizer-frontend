@@ -30,19 +30,21 @@ export default function User({ match }) {
   const [user] = users;
 
   useEffect(() => {
-    const decipher = crypto.createDecipher(
-      'aes-256-ctr',
-      process.env.REACT_APP_SECRET_PASSWORD
-    );
-    const idName = decipher.update(ctyptoIdName, 'hex', 'utf8').split('-');
-    const id = idName[0];
-    const name = idName[1];
-    setUserName(name);
-    dispatch(filterUsersRequest({ id }));
+    if (!empty(process.env.REACT_APP_SECRET_PASSWORD)) {
+      const decipher = crypto.createDecipher(
+        'aes-256-ctr',
+        process.env.REACT_APP_SECRET_PASSWORD
+      );
+      const idName = decipher.update(ctyptoIdName, 'hex', 'utf8').split('-');
+      const id = idName[0];
+      const name = idName[1];
+      setUserName(name);
+      dispatch(filterUsersRequest({ id }));
+    }
   }, [dispatch, ctyptoIdName]);
 
   useEffect(() => {
-    if (!empty(user)) {
+    if (!empty(user) && !empty(user._id)) {
       setProfileData([
         ['ID', user._id],
         ['NAME', user.name],
@@ -53,6 +55,15 @@ export default function User({ match }) {
       ]);
     }
   }, [user]);
+
+  if (empty(process.env.REACT_APP_SECRET_PASSWORD)) {
+    return (
+      <SimpleInformation>
+        Warning:
+        <span>You must to fill .env document</span>
+      </SimpleInformation>
+    );
+  }
 
   return (
     <>
@@ -74,7 +85,7 @@ export default function User({ match }) {
                     {profileData.map(data => {
                       if (!empty(data[1])) {
                         return (
-                          <Label>
+                          <Label key={data[0]}>
                             <TitleLabel>{data[0]}</TitleLabel>
                             <DataLabel>{data[1]}</DataLabel>
                           </Label>
