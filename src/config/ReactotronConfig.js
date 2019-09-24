@@ -2,7 +2,9 @@ import Reactotron from 'reactotron-react-js';
 import { reactotronRedux } from 'reactotron-redux';
 import reactotronSaga from 'reactotron-redux-saga';
 
-if (process.env.NODE_ENV === 'development') {
+const isFirefox = typeof InstallTrigger !== 'undefined';
+
+if (process.env.NODE_ENV === 'development' && !isFirefox) {
   const tron = Reactotron.configure()
     .use(reactotronRedux())
     .use(reactotronSaga())
