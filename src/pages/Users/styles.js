@@ -8,7 +8,7 @@ export const Group = styled.div`
 
 export const GroupTitle = styled.h2`
   font-size: 35px;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
   & > * {
     margin-right: 10px;
   }

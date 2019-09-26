@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 import FlashOn from '@material-ui/icons/FlashOn';
 
-import Filter from '../_layouts/filters';
+import Filter from '../../components/Filter';
 import { ContentTitleButton } from './styles';
 
 export default function Teams() {

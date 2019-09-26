@@ -5,7 +5,7 @@ import { MenuItem } from '@material-ui/core';
 import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownOutlined';
 import { MdSearch } from 'react-icons/md';
 
-import { filterUsersRequest } from '../../../store/modules/filterUsers/actions';
+import { filterUsersRequest } from '../../store/modules/filterUsers/actions';
 
 import {
   ContentFilters,

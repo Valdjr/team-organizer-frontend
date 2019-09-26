@@ -22,7 +22,7 @@ import {
 
 export default function User({ match }) {
   const dispatch = useDispatch();
-  const { ctyptoIdName } = match.params;
+  const { cryptoIdName } = match.params;
 
   const [userName, setUserName] = useState('');
   const [profileData, setProfileData] = useState([]);
@@ -35,13 +35,13 @@ export default function User({ match }) {
         'aes-256-ctr',
         process.env.REACT_APP_SECRET_PASSWORD
       );
-      const idName = decipher.update(ctyptoIdName, 'hex', 'utf8').split('-');
+      const idName = decipher.update(cryptoIdName, 'hex', 'utf8').split('-');
       const id = idName[0];
       const name = idName[1];
       setUserName(name);
       dispatch(filterUsersRequest({ id }));
     }
-  }, [dispatch, ctyptoIdName]);
+  }, [dispatch, cryptoIdName]);
 
   useEffect(() => {
     if (!empty(user) && !empty(user._id)) {
@@ -51,7 +51,7 @@ export default function User({ match }) {
         ['EMAIL', user.email],
         ['ROLE', user.role_id.name],
         ['EXPERIENCE', `${user.exp} year(s)`],
-        ['DISCOR', user.discord_id],
+        ['DISCORD', user.discord_id],
       ]);
     }
   }, [user]);
@@ -112,7 +112,7 @@ export default function User({ match }) {
 User.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      ctyptoIdName: PropTypes.string.isRequired,
+      cryptoIdName: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };

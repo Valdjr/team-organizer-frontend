@@ -5,7 +5,7 @@ import Dotdotdot from 'react-dotdotdot';
 import empty from 'is-empty';
 import crypto from 'crypto';
 
-import Filter from '../_layouts/filters';
+import Filter from '../../components/Filter';
 import {
   ContentPage,
   SimpleInformation,
