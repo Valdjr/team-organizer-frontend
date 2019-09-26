@@ -3,13 +3,11 @@ import styled from 'styled-components';
 export const UserInformation = styled.div`
   display: flex;
   align-items: stretch;
-  & > * {
-    margin-right: 70px;
-  }
 `;
 export const Column = styled.div`
   display: flex;
   flex-direction: column;
+  margin-right: 90px;
   &:first-of-type {
     align-items: center;
   }
@@ -25,13 +23,33 @@ export const TitleColumn = styled.h2`
   font-size: 35px;
 `;
 
-export const Label = styled.div`
+export const ContentData = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
 `;
-export const TitleLabel = styled.span`
+export const DataTitle = styled.span`
   font-size: 18px;
   font-weight: bolder;
 `;
-export const DataLabel = styled.span``;
+
+export const ContentSkill = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const SkillData = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  margin-bottom: 15px;
+  & > *:first-of-type {
+    margin-right: 20px;
+  }
+`;
+
+export const ZeroSkills = styled.span`
+  font-size: 20px;
+  color: #c5c5c5;
+`;

@@ -15,9 +15,11 @@ import {
   UserInformation,
   Column,
   TitleColumn,
-  Label,
-  TitleLabel,
-  DataLabel,
+  ContentData,
+  DataTitle,
+  ContentSkill,
+  SkillData,
+  ZeroSkills,
 } from './styles';
 
 export default function User({ match }) {
@@ -56,15 +58,6 @@ export default function User({ match }) {
     }
   }, [user]);
 
-  if (empty(process.env.REACT_APP_SECRET_PASSWORD)) {
-    return (
-      <SimpleInformation>
-        Warning:
-        <span>You must to fill .env document</span>
-      </SimpleInformation>
-    );
-  }
-
   return (
     <>
       <h1>{userName}</h1>
@@ -85,10 +78,10 @@ export default function User({ match }) {
                     {profileData.map(data => {
                       if (!empty(data[1])) {
                         return (
-                          <Label key={data[0]}>
-                            <TitleLabel>{data[0]}</TitleLabel>
-                            <DataLabel>{data[1]}</DataLabel>
-                          </Label>
+                          <ContentData key={data[0]}>
+                            <DataTitle>{data[0]}</DataTitle>
+                            <span>{data[1]}</span>
+                          </ContentData>
                         );
                       }
                       return '';
@@ -100,6 +93,22 @@ export default function User({ match }) {
               </Column>
               <Column>
                 <TitleColumn>SKILLS</TitleColumn>
+                <ContentSkill>
+                  {!empty(user) && !empty(user.skill_id) ? (
+                    <>
+                      {user.skill_id.skills.map(skill => {
+                        return (
+                          <SkillData>
+                            <span>{skill.name}</span>
+                            <span>LV. {skill.level}</span>
+                          </SkillData>
+                        );
+                      })}
+                    </>
+                  ) : (
+                    <ZeroSkills>Without registered skills</ZeroSkills>
+                  )}
+                </ContentSkill>
               </Column>
             </UserInformation>
           </>
