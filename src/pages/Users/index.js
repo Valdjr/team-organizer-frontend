@@ -5,7 +5,7 @@ import Dotdotdot from 'react-dotdotdot';
 import empty from 'is-empty';
 import crypto from 'crypto';
 
-import Filter from '../_layouts/filters';
+import Filter from '../../components/Filter';
 import {
   ContentPage,
   SimpleInformation,
@@ -58,15 +58,6 @@ export default function Users() {
       process.env.REACT_APP_SECRET_PASSWORD
     );
     return cipher.update(idName, 'utf8', 'hex');
-  }
-
-  if (empty(process.env.REACT_APP_SECRET_PASSWORD)) {
-    return (
-      <SimpleInformation>
-        Warning:
-        <span>You must to fill .env document</span>
-      </SimpleInformation>
-    );
   }
 
   return (

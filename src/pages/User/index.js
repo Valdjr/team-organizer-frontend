@@ -15,14 +15,16 @@ import {
   UserInformation,
   Column,
   TitleColumn,
-  Label,
-  TitleLabel,
-  DataLabel,
+  ContentData,
+  DataTitle,
+  ContentSkill,
+  SkillData,
+  ZeroSkills,
 } from './styles';
 
 export default function User({ match }) {
   const dispatch = useDispatch();
-  const { ctyptoIdName } = match.params;
+  const { cryptoIdName } = match.params;
 
   const [userName, setUserName] = useState('');
   const [profileData, setProfileData] = useState([]);
@@ -35,13 +37,13 @@ export default function User({ match }) {
         'aes-256-ctr',
         process.env.REACT_APP_SECRET_PASSWORD
       );
-      const idName = decipher.update(ctyptoIdName, 'hex', 'utf8').split('-');
+      const idName = decipher.update(cryptoIdName, 'hex', 'utf8').split('-');
       const id = idName[0];
       const name = idName[1];
       setUserName(name);
       dispatch(filterUsersRequest({ id }));
     }
-  }, [dispatch, ctyptoIdName]);
+  }, [dispatch, cryptoIdName]);
 
   useEffect(() => {
     if (!empty(user) && !empty(user._id)) {
@@ -51,19 +53,10 @@ export default function User({ match }) {
         ['EMAIL', user.email],
         ['ROLE', user.role_id.name],
         ['EXPERIENCE', `${user.exp} year(s)`],
-        ['DISCOR', user.discord_id],
+        ['DISCORD', user.discord_id],
       ]);
     }
   }, [user]);
-
-  if (empty(process.env.REACT_APP_SECRET_PASSWORD)) {
-    return (
-      <SimpleInformation>
-        Warning:
-        <span>You must to fill .env document</span>
-      </SimpleInformation>
-    );
-  }
 
   return (
     <>
@@ -85,10 +78,10 @@ export default function User({ match }) {
                     {profileData.map(data => {
                       if (!empty(data[1])) {
                         return (
-                          <Label key={data[0]}>
-                            <TitleLabel>{data[0]}</TitleLabel>
-                            <DataLabel>{data[1]}</DataLabel>
-                          </Label>
+                          <ContentData key={data[0]}>
+                            <DataTitle>{data[0]}</DataTitle>
+                            <span>{data[1]}</span>
+                          </ContentData>
                         );
                       }
                       return '';
@@ -100,6 +93,22 @@ export default function User({ match }) {
               </Column>
               <Column>
                 <TitleColumn>SKILLS</TitleColumn>
+                <ContentSkill>
+                  {!empty(user) && !empty(user.skill_id) ? (
+                    <>
+                      {user.skill_id.skills.map(skill => {
+                        return (
+                          <SkillData>
+                            <span>{skill.name}</span>
+                            <span>LV. {skill.level}</span>
+                          </SkillData>
+                        );
+                      })}
+                    </>
+                  ) : (
+                    <ZeroSkills>Without registered skills</ZeroSkills>
+                  )}
+                </ContentSkill>
               </Column>
             </UserInformation>
           </>
@@ -112,7 +121,7 @@ export default function User({ match }) {
 User.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      ctyptoIdName: PropTypes.string.isRequired,
+      cryptoIdName: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };

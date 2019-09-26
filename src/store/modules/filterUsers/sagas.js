@@ -6,7 +6,7 @@ import api from '../../../services/api';
 
 import { filterUsersSuccess, filterUsersFailure } from './actions';
 
-export function* filterUsers({ payload }) {
+export function* filterStarting({ payload }) {
   try {
     const { id, filter, search, sort } = payload;
 
@@ -28,4 +28,4 @@ export function* filterUsers({ payload }) {
   }
 }
 
-export default all([takeLatest('@filterUsers/REQUEST', filterUsers)]);
+export default all([takeLatest('@filterUsers/REQUEST', filterStarting)]);
