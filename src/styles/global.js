@@ -25,9 +25,9 @@ export const ContentScore = styled.span`
   align-items: center;
   justify-content: center;
   width: 70px;
-  height: 50px;
+  height: 40px;
   font-size: 25px;
-  border-radius: 23px;
+  border-radius: 17px;
   color: #fff;
 `;
 

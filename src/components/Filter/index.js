@@ -62,7 +62,7 @@ export default function Filters({ filterby, sortby, who }) {
       setSearch(currentValue);
       timer = setTimeout(() => {
         setPar({ filter, search: currentValue, sort });
-      }, 800);
+      }, 300);
     }
   }
 
