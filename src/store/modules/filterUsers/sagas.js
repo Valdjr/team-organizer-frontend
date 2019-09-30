@@ -18,7 +18,7 @@ export function* filterStarting({ payload }) {
       URL += !empty(sort) ? `&sort=${sort}` : '';
     }
     const responseFilter = yield call(api.get, URL);
-    const users = [...responseFilter.data];
+    const users = [...responseFilter.data.users];
 
     yield put(filterUsersSuccess(users));
   } catch (err) {
