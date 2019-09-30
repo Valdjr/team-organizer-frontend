@@ -6,6 +6,8 @@ import empty from 'is-empty';
 import crypto from 'crypto';
 
 import Filter from '../../components/Filter';
+import { Scrollbars } from 'react-custom-scrollbars';
+
 import {
   ContentPage,
   SimpleInformation,
@@ -86,33 +88,35 @@ export default function Users() {
                           )}
                           <span>({group.users.length})</span>
                         </GroupTitle>
-                        <Participants>
-                          {group.users.map(user => (
-                            <Participant key={`${user._id}`}>
-                              <Link
-                                to={`/user/${cryptIdName(
-                                  `${user._id}-${user.name}`
-                                )}`}
-                                title={user.name}
-                              >
-                                <ParticipantCard>
-                                  <img src={user.avatar} alt={user.name} />
-                                  <RoleTitle>
-                                    {user.role_id.name.toUpperCase()}
-                                  </RoleTitle>
-                                </ParticipantCard>
-                                <ParticipantName>
-                                  <Dotdotdot clamp={2}>
-                                    {user.name.substring(
-                                      0,
-                                      `${user.name} `.indexOf(' ')
-                                    )}
-                                  </Dotdotdot>
-                                </ParticipantName>
-                              </Link>
-                            </Participant>
-                          ))}
-                        </Participants>
+                        <Scrollbars style={{ width: '100%', height: 225 }}>
+                          <Participants>
+                            {group.users.map(user => (
+                              <Participant key={`${user._id}`}>
+                                <Link
+                                  to={`/user/${cryptIdName(
+                                    `${user._id}-${user.name}`
+                                  )}`}
+                                  title={user.name}
+                                >
+                                  <ParticipantCard>
+                                    <img src={user.avatar} alt={user.name} />
+                                    <RoleTitle>
+                                      {user.role_id.name.toUpperCase()}
+                                    </RoleTitle>
+                                  </ParticipantCard>
+                                  <ParticipantName>
+                                    <Dotdotdot clamp={2}>
+                                      {user.name.substring(
+                                        0,
+                                        `${user.name} `.indexOf(' ')
+                                      )}
+                                    </Dotdotdot>
+                                  </ParticipantName>
+                                </Link>
+                              </Participant>
+                            ))}
+                          </Participants>
+                        </Scrollbars>
                       </>
                     ) : (
                       <></>

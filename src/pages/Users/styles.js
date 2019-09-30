@@ -1,5 +1,8 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Card } from '@material-ui/core';
+
+import { bounceIn } from 'react-animations';
+export const bounce = keyframes`${bounceIn}`;
 
 export const Group = styled.div`
   display: flex;
@@ -30,6 +33,7 @@ export const Participant = styled.div`
   a {
     text-decoration: none;
   }
+  animation: 0.35s ${bounce} ease;
 `;
 
 export const ParticipantCard = styled(Card)`

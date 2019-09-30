@@ -60,10 +60,15 @@ export const Dropdown = styled(Select)`
   div.MuiInputBase-inputSelect,
   svg {
     color: #ff5700;
+    text-transform: uppercase;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: bold;
   }
 `;
 
 export const InputNaked = styled(InputBase)`
+  font: 15px 'Roboto Mono', monospace !important;
+
   &::placeholder {
     font-weight: lighter;
     color: #c5c5c5;

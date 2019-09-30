@@ -125,7 +125,7 @@ export default function Filters({ filterby, sortby, who }) {
           </ContentFilter>
           <div className="divider" />
           <ContentSearch>
-            <MdSearch color="#000" size={25} />
+            <MdSearch color="#3E3E3E" size={25} />
             <InputNaked
               type="search"
               value={search}
