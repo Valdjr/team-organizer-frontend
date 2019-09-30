@@ -10,6 +10,9 @@ export const Column = styled.div`
   margin-right: 90px;
   &:first-of-type {
     align-items: center;
+    span {
+      font-weight: 600;
+    }
   }
   img {
     width: 100px;

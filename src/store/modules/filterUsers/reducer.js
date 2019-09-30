@@ -1,7 +1,9 @@
 import produce from 'immer';
 
+import history from '../../../services/history';
+
 const INITIAL_STATE = {
-  users: [],
+  resultUsers: [],
   loading: true,
 };
 
@@ -13,7 +15,10 @@ export default function filterUsers(state = INITIAL_STATE, action) {
         break;
       }
       case '@filterUsers/SUCCESS': {
-        draft.users = action.payload.users;
+        draft.resultUsers = {
+          local: history.location.pathname.split('/')[1],
+          users: [...action.payload.users],
+        };
         draft.loading = false;
         break;
       }

@@ -50,9 +50,7 @@ const sortby = [
 ];
 
 export default function Users() {
-  const { loading, users: resultUsers } = useSelector(
-    state => state.filterUsers
-  );
+  const { loading, resultUsers } = useSelector(state => state.filterUsers);
 
   function cryptIdName(idName) {
     const cipher = crypto.createCipher(
@@ -71,9 +69,9 @@ export default function Users() {
           <SimpleInformation>Loading...</SimpleInformation>
         ) : (
           <>
-            {resultUsers.length > 0 ? (
+            {resultUsers.local === 'users' && resultUsers.users.length > 0 ? (
               <>
-                {resultUsers.map(group => (
+                {resultUsers.users.map(group => (
                   <Group key={`${group._id || Math.random() * 10}`}>
                     {!empty(group.users) ? (
                       <>

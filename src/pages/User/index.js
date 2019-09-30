@@ -28,8 +28,8 @@ export default function User({ match }) {
 
   const [userName, setUserName] = useState('');
   const [profileData, setProfileData] = useState([]);
-  const { loading, users } = useSelector(state => state.filterUsers);
-  const [user] = users;
+  const { loading, resultUsers } = useSelector(state => state.filterUsers);
+  const [user] = resultUsers.local === 'user' ? resultUsers.users : [{}];
 
   useEffect(() => {
     if (!empty(process.env.REACT_APP_SECRET_PASSWORD)) {
@@ -46,7 +46,7 @@ export default function User({ match }) {
   }, [dispatch, cryptoIdName]);
 
   useEffect(() => {
-    if (!empty(user) && !empty(user._id)) {
+    if (!empty(user)) {
       setProfileData([
         ['ID', user._id],
         ['NAME', user.name],
@@ -69,6 +69,7 @@ export default function User({ match }) {
             <UserInformation>
               <Column>
                 <img src={user.avatar} alt={user.name} />
+                <span>SCORE</span>
                 <ContentScore>{user.score}</ContentScore>
               </Column>
               <Column>
@@ -94,11 +95,11 @@ export default function User({ match }) {
               <Column>
                 <TitleColumn>SKILLS</TitleColumn>
                 <ContentSkill>
-                  {!empty(user) && !empty(user.skill_id) ? (
+                  {!empty(user.skill_id) ? (
                     <>
                       {user.skill_id.skills.map(skill => {
                         return (
-                          <SkillData>
+                          <SkillData key={skill.name}>
                             <span>{skill.name}</span>
                             <span>LV. {skill.level}</span>
                           </SkillData>
