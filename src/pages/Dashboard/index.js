@@ -38,12 +38,12 @@ export default function Dashboard() {
           desing: 1,
           'dev-font': 1,
           'dev-back': 1,
-          telemarketing: 0,
+          marketing: 0,
         },
         total: 5,
       },
     ],
-    roles: ['bussines', 'desing', 'dev-font', 'dev-back', 'telemarketing'],
+    roles: ['bussines', 'desing', 'dev-font', 'dev-back', 'marketing'],
   };
   const { loading, resultUsers } = useSelector(state => state.filterUsers);
 
