@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { MdLoop, MdLink } from 'react-icons/md';
 import empty from 'is-empty';
-import { Table } from 'semantic-ui-react';
+import { MdLoop, MdLink, MdAnnouncement } from 'react-icons/md';
+import { Table, Popup } from 'semantic-ui-react';
 
 import 'semantic-ui-css/components/table.min.css';
+import 'semantic-ui-css/components/popup.min.css';
+import 'semantic-ui-css/components/icon.min.css';
 import { filterUsersRequest } from '../../store/modules/filterUsers/actions';
+import { userPerTeamRequest } from '../../store/modules/userPerTeam/actions';
 
 import {
   OverviewTitle,
   SwitchButton,
   TableContent,
   ContentScoreMini,
+  LineInformations,
   CurrentStatusContent,
   StatusOne,
   StatusTitle,
   StatusData,
+  AdviceContent,
+  AdviceLine,
 } from './styles';
 import {
   ContentPage,
@@ -45,7 +51,20 @@ export default function Dashboard() {
     ],
     roles: ['bussines', 'desing', 'dev-font', 'dev-back', 'marketing'],
   };
-  const { loading, resultUsers } = useSelector(state => state.filterUsers);
+  const { filterUsers_loading, resultUsers } = useSelector(
+    state => state.filterUsers
+  );
+  const { userPerTeam_loading, resultUserPerTeam } = useSelector(
+    state => state.userPerTeam
+  );
+  const loading = filterUsers_loading;
+  const propsPopup = {
+    style: { background: '#FF5700', color: '#fff' },
+    size: 'tiny',
+    basic: true,
+    position: 'bottom center',
+    trigger: <MdAnnouncement size={20} color="#FF5700" />,
+  };
 
   function handleSwtichData() {
     const oldCurrent = toSwitch.current;
@@ -56,6 +75,7 @@ export default function Dashboard() {
   useEffect(() => {
     async function fechData() {
       await dispatch(filterUsersRequest({}));
+      await dispatch(userPerTeamRequest({}));
     }
     fechData();
   }, [toSwitch, dispatch]);
@@ -68,27 +88,45 @@ export default function Dashboard() {
           <SimpleInformation>Loading...</SimpleInformation>
         ) : (
           <>
-            <CurrentStatusContent>
-              <StatusOne>
-                <StatusTitle>USERS</StatusTitle>
-                <StatusData>
-                  {resultUsers.local === 'dashboard' &&
-                  !empty(resultUsers.users)
-                    ? resultUsers.users.length
-                    : 0}
-                </StatusData>
-              </StatusOne>
-              <StatusOne>
-                <StatusTitle>TEAMS</StatusTitle>
-                <StatusData>1</StatusData>
-              </StatusOne>
-              <StatusOne>
-                <StatusTitle>AVG. SCORE</StatusTitle>
-                <StatusData>
-                  <ContentScore>80</ContentScore>
-                </StatusData>
-              </StatusOne>
-            </CurrentStatusContent>
+            <LineInformations>
+              <CurrentStatusContent>
+                <StatusOne>
+                  <StatusTitle>USERS</StatusTitle>
+                  <StatusData>
+                    {resultUsers.local === 'dashboard' &&
+                    !empty(resultUsers.users)
+                      ? resultUsers.users.length
+                      : 0}
+                  </StatusData>
+                </StatusOne>
+                <StatusOne>
+                  <StatusTitle>TEAMS</StatusTitle>
+                  <StatusData>1</StatusData>
+                </StatusOne>
+                <StatusOne>
+                  <StatusTitle>AVG. SCORE</StatusTitle>
+                  <StatusData>
+                    <ContentScore>80</ContentScore>
+                  </StatusData>
+                </StatusOne>
+              </CurrentStatusContent>
+              <AdviceContent>
+                <AdviceLine>
+                  <Popup
+                    content="This is the number of teams the system can create, based on the rules defined in Settings and the current user number."
+                    {...propsPopup}
+                  />
+                  <span>TEAM NUMBER MAX:</span>
+                </AdviceLine>
+                <AdviceLine>
+                  <Popup
+                    content="This shows how many signed up users are left to create all teams with the same amount of users inside."
+                    {...propsPopup}
+                  />
+                  <span>USERS REMAINING:</span>
+                </AdviceLine>
+              </AdviceContent>
+            </LineInformations>
             <OverviewTitle>
               <span>Overview {toSwitch.current}</span>
               <SwitchButton variant="outlined" onClick={handleSwtichData}>

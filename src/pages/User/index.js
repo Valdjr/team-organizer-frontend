@@ -28,7 +28,9 @@ export default function User({ match }) {
 
   const [userName, setUserName] = useState('');
   const [profileData, setProfileData] = useState([]);
-  const { loading, resultUsers } = useSelector(state => state.filterUsers);
+  const { filterUsers_loading: loading, resultUsers } = useSelector(
+    state => state.filterUsers
+  );
   const [user] = resultUsers.local === 'user' ? resultUsers.users : [{}];
 
   useEffect(() => {
