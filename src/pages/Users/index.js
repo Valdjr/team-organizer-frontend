@@ -5,8 +5,8 @@ import Dotdotdot from 'react-dotdotdot';
 import empty from 'is-empty';
 import crypto from 'crypto';
 
-import Filter from '../../components/Filter';
 import { Scrollbars } from 'react-custom-scrollbars';
+import Filter from '../../components/Filter';
 
 import {
   ContentPage,
@@ -50,7 +50,9 @@ const sortby = [
 ];
 
 export default function Users() {
-  const { loading, resultUsers } = useSelector(state => state.filterUsers);
+  const { filterUsers_loading: loading, resultUsers } = useSelector(
+    state => state.filterUsers
+  );
 
   function cryptIdName(idName) {
     const cipher = crypto.createCipher(

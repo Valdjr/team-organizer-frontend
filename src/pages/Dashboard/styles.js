@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 import { Button } from '@material-ui/core';
 
+export const LineInformations = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const CurrentStatusContent = styled.div`
   width: fit-content;
   border-bottom: 1px solid rgba(34, 36, 38, 0.1);
@@ -18,6 +24,20 @@ export const StatusTitle = styled.div``;
 export const StatusData = styled.div`
   font-size: 35px;
   font-weight: 800;
+`;
+
+export const AdviceContent = styled.div``;
+
+export const AdviceLine = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 7px;
+  font-size: 17px;
+  font-weight: 600;
+  svg {
+    cursor: pointer;
+    margin-right: 12px;
+  }
 `;
 
 export const OverviewTitle = styled.h2`

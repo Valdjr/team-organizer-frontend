@@ -4,14 +4,14 @@ import history from '../../../services/history';
 
 const INITIAL_STATE = {
   resultUsers: [],
-  loading: true,
+  filterUsers_loading: true,
 };
 
 export default function filterUsers(state = INITIAL_STATE, action) {
   return produce(state, draft => {
     switch (action.type) {
       case '@filterUsers/REQUEST': {
-        draft.loading = true;
+        draft.filterUsers_loading = true;
         break;
       }
       case '@filterUsers/SUCCESS': {
@@ -19,11 +19,11 @@ export default function filterUsers(state = INITIAL_STATE, action) {
           local: history.location.pathname.split('/')[1],
           users: [...action.payload.users],
         };
-        draft.loading = false;
+        draft.filterUsers_loading = false;
         break;
       }
       case '@filterUsers/FAILURE': {
-        draft.loading = false;
+        draft.filterUsers_loading = false;
         break;
       }
       default:
