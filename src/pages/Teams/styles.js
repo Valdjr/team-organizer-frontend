@@ -1,7 +1,9 @@
 import styled, { keyframes } from 'styled-components';
+import { darken } from 'polished';
 import { Button } from '@material-ui/core';
 
 import { bounceIn, fadeIn } from 'react-animations';
+
 export const bounce = keyframes`${bounceIn}`;
 export const fade = keyframes`${fadeIn}`;
 
@@ -34,7 +36,7 @@ export const SortButton = styled(Button)`
   background: #ff5700 !important;
   opacity: ${props => (props.disabled ? '0.5' : '1')} !important;
   &:hover {
-    background: #ff5700 !important;
+    background: ${darken(0.02, '#ff5700')} !important;
   }
   @media only screen and (max-width: 768px) {
     margin-left: 10px;
@@ -46,7 +48,7 @@ export const ResetButton = styled(Button)`
   border-color: #ff5700 !important;
   opacity: ${props => (props.disabled ? '0.5' : '1')} !important;
   &:hover {
-    background: #fff !important;
+    background: ${darken(0.02, '#fff')} !important;
   }
   svg {
     margin-right: 5px;
