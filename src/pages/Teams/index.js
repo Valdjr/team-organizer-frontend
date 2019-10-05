@@ -4,9 +4,11 @@ import Dotdotdot from 'react-dotdotdot';
 import empty from 'is-empty';
 import { MdSettingsBackupRestore, MdFlashOn } from 'react-icons/md';
 
-import { Scrollbars } from 'react-custom-scrollbars';
 import Filter from '../../components/Filter';
 import UserLink from '../../components/UserLink';
+import ReactLoader from '../../components/Loader';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import {
   ContentPage,
@@ -36,10 +38,6 @@ const filterby = [
     selected: false,
   },
 ];
-
-import ReactLoader from '../../components/Loader';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import 'react-perfect-scrollbar/dist/css/styles.css';
 
 export default function Teams() {
   const { filterTeams_loading: loading, resultTeams } = useSelector(
@@ -76,7 +74,14 @@ export default function Teams() {
                           <ContentScore>{team.scoreTeam}</ContentScore>
                           <span>({team.users.length})</span>
                         </GroupTitle>
-                        <Scrollbars style={{ width: '100%', height: 225 }}>
+                        <PerfectScrollbar
+                          className="scrollbar"
+                          option={{
+                            suppressScrollY: true,
+                            wheelPropagation: true,
+                            useBothWheelAxes: true,
+                          }}
+                        >
                           <Participants>
                             {team.users.map(user => (
                               <Participant key={`${user._id}`}>
@@ -104,7 +109,7 @@ export default function Teams() {
                               </Participant>
                             ))}
                           </Participants>
-                        </Scrollbars>
+                        </PerfectScrollbar>
                       </>
                     ) : (
                       <></>

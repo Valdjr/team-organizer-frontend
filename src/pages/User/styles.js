@@ -1,9 +1,14 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+import { bounceIn, fadeIn } from 'react-animations';
+export const bounce = keyframes`${bounceIn}`;
+export const fade = keyframes`${fadeIn}`;
 
 export const UserInformation = styled.div`
   display: flex;
   align-items: stretch;
 `;
+
 export const Column = styled.div`
   display: flex;
   flex-direction: column;
@@ -19,7 +24,12 @@ export const Column = styled.div`
     border-radius: 27px;
     margin-bottom: 20px;
     box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.15);
+    animation: 0.35s ${bounce} ease;
   }
+`;
+
+export const PageTitle = styled.h1`
+  animation: 0.3s ${fade} ease;
 `;
 
 export const TitleColumn = styled.h2`

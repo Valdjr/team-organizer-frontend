@@ -5,13 +5,11 @@ import empty from 'is-empty';
 import crypto from 'crypto';
 
 import { filterUsersRequest } from '../../store/modules/filterUsers/actions';
+import ReactLoader from '../../components/Loader';
 
+import { ContentPage, ContentScore } from '../../styles/global';
 import {
-  SimpleInformation,
-  ContentPage,
-  ContentScore,
-} from '../../styles/global';
-import {
+  PageTitle,
   UserInformation,
   Column,
   TitleColumn,
@@ -62,10 +60,10 @@ export default function User({ match }) {
 
   return (
     <>
-      <h1>{userName}</h1>
+      <PageTitle>{userName}</PageTitle>
       <ContentPage>
         {loading ? (
-          <SimpleInformation>Loading...</SimpleInformation>
+          <ReactLoader />
         ) : (
           <>
             <UserInformation>
