@@ -9,6 +9,7 @@ import 'semantic-ui-css/components/table.min.css';
 import 'semantic-ui-css/components/popup.min.css';
 import 'semantic-ui-css/components/icon.min.css';
 import { filterUsersRequest } from '../../store/modules/filterUsers/actions';
+import { filterTeamsRequest } from '../../store/modules/filterTeams/actions';
 import { userPerTeamRequest } from '../../store/modules/userPerTeam/actions';
 
 import {
@@ -23,6 +24,7 @@ import {
   StatusData,
   AdviceContent,
   AdviceLine,
+  UsersRemaining,
 } from './styles';
 import {
   ContentPage,
@@ -32,32 +34,27 @@ import {
 
 export default function Dashboard() {
   const dispatch = useDispatch();
+
   const [toSwitch, setToSwtich] = useState({ current: 'Users', next: 'Teams' });
-  const resultTeams = {
-    local: 'dashboard',
-    teams: [
-      {
-        name: 'Team 1',
-        score: 81,
-        roles: {
-          bussines: 2,
-          desing: 1,
-          'dev-font': 1,
-          'dev-back': 1,
-          marketing: 0,
-        },
-        total: 5,
-      },
-    ],
-    roles: ['bussines', 'desing', 'dev-font', 'dev-back', 'marketing'],
-  };
+
   const { filterUsers_loading, resultUsers } = useSelector(
     state => state.filterUsers
   );
-  const { userPerTeam_loading, resultUserPerTeam } = useSelector(
+  const { filterTeams_loading, resultTeams } = useSelector(
+    state => state.filterTeams
+  );
+  const { userPerTeam_loading, possibilityPerTeam } = useSelector(
     state => state.userPerTeam
   );
-  const loading = filterUsers_loading;
+
+  const loading =
+    filterUsers_loading || filterTeams_loading || userPerTeam_loading;
+  const isUserOkay =
+    resultUsers.local === 'dashboard' && !empty(resultUsers.users);
+  const isTeamOkay =
+    resultTeams.local === 'dashboard' && !empty(resultTeams.teams);
+  const isTeamScoreTeamOkay =
+    resultTeams.local === 'dashboard' && !empty(resultTeams.scoresTeams);
   const propsPopup = {
     style: { background: '#FF5700', color: '#fff' },
     size: 'tiny',
@@ -75,10 +72,13 @@ export default function Dashboard() {
   useEffect(() => {
     async function fechData() {
       await dispatch(filterUsersRequest({}));
+      await dispatch(
+        filterTeamsRequest({ withUsers: 'roles', scoresTeams: true })
+      );
       await dispatch(userPerTeamRequest({}));
     }
     fechData();
-  }, [toSwitch, dispatch]);
+  }, [dispatch]);
 
   return (
     <>
@@ -93,52 +93,73 @@ export default function Dashboard() {
                 <StatusOne>
                   <StatusTitle>USERS</StatusTitle>
                   <StatusData>
-                    {resultUsers.local === 'dashboard' &&
-                    !empty(resultUsers.users)
-                      ? resultUsers.users.length
-                      : 0}
+                    {isUserOkay ? resultUsers.users.length : 0}
                   </StatusData>
                 </StatusOne>
                 <StatusOne>
                   <StatusTitle>TEAMS</StatusTitle>
-                  <StatusData>1</StatusData>
+                  <StatusData>
+                    {isTeamOkay ? resultTeams.teams.length : 0}
+                  </StatusData>
                 </StatusOne>
                 <StatusOne>
                   <StatusTitle>AVG. SCORE</StatusTitle>
                   <StatusData>
-                    <ContentScore>80</ContentScore>
+                    <ContentScore>
+                      {isTeamScoreTeamOkay
+                        ? resultTeams.scoresTeams.average
+                        : 0}
+                    </ContentScore>
                   </StatusData>
                 </StatusOne>
               </CurrentStatusContent>
-              <AdviceContent>
-                <AdviceLine>
-                  <Popup
-                    content="This is the number of teams the system can create, based on the rules defined in Settings and the current user number."
-                    {...propsPopup}
-                  />
-                  <span>TEAM NUMBER MAX:</span>
-                </AdviceLine>
-                <AdviceLine>
-                  <Popup
-                    content="This shows how many signed up users are left to create all teams with the same amount of users inside."
-                    {...propsPopup}
-                  />
-                  <span>USERS REMAINING:</span>
-                </AdviceLine>
-              </AdviceContent>
+              {isTeamOkay ? (
+                <AdviceContent>
+                  <AdviceLine>
+                    <Popup
+                      content="This is the number of teams the system could create, based on the rules defined in Settings and the current user number."
+                      {...propsPopup}
+                    />
+                    <span>
+                      TEAM NUMBER MAX: {possibilityPerTeam.numeroDeTimes}
+                    </span>
+                  </AdviceLine>
+                  {possibilityPerTeam.sucesso === false ? (
+                    <AdviceLine>
+                      <Popup
+                        content="This shows how many signed up users are left to create all teams with the same amount of users inside."
+                        {...propsPopup}
+                      />
+                      <span>
+                        USERS REMAINING:
+                        <UsersRemaining>
+                          {possibilityPerTeam.falta}
+                        </UsersRemaining>
+                      </span>
+                    </AdviceLine>
+                  ) : (
+                    <></>
+                  )}
+                </AdviceContent>
+              ) : (
+                <></>
+              )}
             </LineInformations>
             <OverviewTitle>
               <span>Overview {toSwitch.current}</span>
-              <SwitchButton variant="outlined" onClick={handleSwtichData}>
-                <MdLoop size={18} /> SWTICH TO {toSwitch.next.toUpperCase()}
-              </SwitchButton>
+              {isTeamOkay ? (
+                <SwitchButton variant="outlined" onClick={handleSwtichData}>
+                  <MdLoop size={18} /> SWTICH TO {toSwitch.next.toUpperCase()}
+                </SwitchButton>
+              ) : (
+                <></>
+              )}
             </OverviewTitle>
             <TableContent>
-              {resultUsers.local === 'dashboard' &&
-              !empty(resultUsers.users) ? (
+              {toSwitch.current === 'Users' ? (
                 <>
-                  {toSwitch.current === 'Users' ? (
-                    <Table basic="very" collapsing>
+                  {isUserOkay ? (
+                    <Table basic="very" collapsing selectable>
                       <Table.Header>
                         <Table.Row>
                           <Table.HeaderCell>ID</Table.HeaderCell>
@@ -192,13 +213,19 @@ export default function Dashboard() {
                       </Table.Body>
                     </Table>
                   ) : (
-                    <Table basic="very" collapsing>
+                    <></>
+                  )}
+                </>
+              ) : (
+                <>
+                  {isTeamOkay ? (
+                    <Table basic="very" collapsing selectable>
                       <Table.Header>
                         <Table.Row>
                           <Table.HeaderCell>ID</Table.HeaderCell>
                           <Table.HeaderCell>NAME</Table.HeaderCell>
                           <Table.HeaderCell>SCORE</Table.HeaderCell>
-                          {resultTeams.roles.map(rl => (
+                          {Object.keys(resultTeams.rolesBase).map(rl => (
                             <Table.HeaderCell key={rl} className="team_roles">
                               {rl.toUpperCase()}
                             </Table.HeaderCell>
@@ -212,7 +239,9 @@ export default function Dashboard() {
                             <Table.Cell>{index + 1}</Table.Cell>
                             <Table.Cell>{tm.name}</Table.Cell>
                             <Table.Cell>
-                              <ContentScoreMini>{tm.score}</ContentScoreMini>
+                              <ContentScoreMini>
+                                {tm.scoreTeam}
+                              </ContentScoreMini>
                             </Table.Cell>
                             {Object.keys(tm.roles).map(ind => (
                               <Table.Cell key={String(ind)} textAlign="center">
@@ -226,10 +255,10 @@ export default function Dashboard() {
                         ))}
                       </Table.Body>
                     </Table>
+                  ) : (
+                    <></>
                   )}
                 </>
-              ) : (
-                <></>
               )}
             </TableContent>
           </>

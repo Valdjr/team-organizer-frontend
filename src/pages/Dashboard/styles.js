@@ -40,6 +40,18 @@ export const AdviceLine = styled.div`
   }
 `;
 
+export const UsersRemaining = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 20px;
+  border-radius: 5px;
+  background: #ff5700;
+  color: #fff;
+  margin-left: 7px;
+`;
+
 export const OverviewTitle = styled.h2`
   font-size: 40px;
   margin-bottom: 25px;

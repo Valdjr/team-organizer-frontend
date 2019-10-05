@@ -9,20 +9,19 @@ export function* gettingUserPerTeam() {
   try {
     const response = yield call(api.get, 'team/usuariosPorTime');
     const data = [...response.data];
-    console.tron.log(data);
 
-    const minTeams = data.reduce((min, p) => {
-      return p.numeroDeTimes < min && p.sucesso ? p.numeroDeTimes : min;
-    }, data[0].numeroDeTimes);
+    let relative_result = data.filter(p => {
+      return p.sucesso === true;
+    });
 
-    const maxTeams = data.reduce((max, p) => {
-      return p.numeroDeTimes > max && p.sucesso ? p.numeroDeTimes : max;
-    }, data[0].numeroDeTimes);
+    if (relative_result.length === 0) {
+      relative_result = data.filter(p => {
+        return p.sucesso === false;
+      });
+    }
 
-    console.tron.log(minTeams);
-    console.tron.log(maxTeams);
-
-    // yield put(userPerTeamSuccess(users));
+    const possibility = relative_result[0];
+    yield put(userPerTeamSuccess(possibility));
   } catch (err) {
     console.tron.error(err);
     toast.error('Falha ao buscar informações, verifique sua conexão');
