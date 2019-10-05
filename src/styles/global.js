@@ -1,5 +1,8 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, { keyframes, createGlobalStyle } from 'styled-components';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { fadeIn } from 'react-animations';
+export const fade = keyframes`${fadeIn}`;
 
 export const ContentPage = styled.div`
   padding-top: 40px;
@@ -13,6 +16,7 @@ export const SimpleInformation = styled.h2`
   flex-direction: column;
   font-size: 50px;
   color: #c5c5c5;
+  animation: 0.3s ${fade} ease;
 
   & span {
     font-size: 15px;

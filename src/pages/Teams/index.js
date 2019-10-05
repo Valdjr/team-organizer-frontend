@@ -60,7 +60,7 @@ export default function Teams() {
       <Filter filterby={filterby} who="teams" />
       <ContentPage>
         {loading ? (
-          <SimpleInformation>Loading...</SimpleInformation>
+          <ReactLoader />
         ) : (
           <>
             {resultTeams.local === 'teams' && !empty(resultTeams.teams) ? (

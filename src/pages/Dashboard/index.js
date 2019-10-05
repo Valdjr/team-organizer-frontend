@@ -29,11 +29,7 @@ import {
   PageTitle,
   UsersRemaining,
 } from './styles';
-import {
-  ContentPage,
-  SimpleInformation,
-  ContentScore,
-} from '../../styles/global';
+import { ContentPage, ContentScore } from '../../styles/global';
 
 export default function Dashboard() {
   const dispatch = useDispatch();
