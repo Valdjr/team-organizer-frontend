@@ -6,6 +6,7 @@ import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownO
 import { MdSearch } from 'react-icons/md';
 
 import { filterUsersRequest } from '../../store/modules/filterUsers/actions';
+import { filterTeamsRequest } from '../../store/modules/filterTeams/actions';
 
 import {
   ContentFilters,
@@ -47,7 +48,13 @@ export default function Filters({ filterby, sortby, who }) {
         );
         break;
       case 'teams':
-        dispatch(filterUsersRequest(par.filter, par.search));
+        dispatch(
+          filterTeamsRequest({
+            withUsers: true,
+            filter: par.filter,
+            search: par.search,
+          })
+        );
         break;
       default:
     }

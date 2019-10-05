@@ -99,14 +99,12 @@ export default function User({ match }) {
                 <ContentSkill>
                   {!empty(user.skill_id) ? (
                     <>
-                      {user.skill_id.skills.map(skill => {
-                        return (
-                          <SkillData key={skill.name}>
-                            <span>{skill.name}</span>
-                            <span>LV. {skill.level}</span>
-                          </SkillData>
-                        );
-                      })}
+                      {user.skill_id.skills.map(skill => (
+                        <SkillData key={skill._id}>
+                          <span>{skill.name}</span>
+                          <span>LV. {skill.level}</span>
+                        </SkillData>
+                      ))}
                     </>
                   ) : (
                     <ZeroSkills>Without registered skills</ZeroSkills>

@@ -1,8 +1,8 @@
 import produce from 'immer';
 
 const INITIAL_STATE = {
-  resultUserPerTeam: [],
   userPerTeam_loading: true,
+  possibilityPerTeam: {},
 };
 
 export default function userPerTeam(state = INITIAL_STATE, action) {
@@ -13,8 +13,8 @@ export default function userPerTeam(state = INITIAL_STATE, action) {
         break;
       }
       case '@userPerTeam/SUCCESS': {
-        draft.resultUsers = [];
         draft.userPerTeam_loading = false;
+        draft.possibilityPerTeam = action.payload.possibility;
         break;
       }
       case '@userPerTeam/FAILURE': {

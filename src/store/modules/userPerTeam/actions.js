@@ -5,10 +5,10 @@ export function userPerTeamRequest() {
   };
 }
 
-export function userPerTeamSuccess() {
+export function userPerTeamSuccess(possibility) {
   return {
     type: '@userPerTeam/SUCCESS',
-    payload: {},
+    payload: { possibility },
   };
 }
 
