@@ -23,7 +23,9 @@ export function* filterStarting({ payload }) {
     yield put(filterUsersSuccess(users));
   } catch (err) {
     console.tron.error(err);
-    toast.error('Falha ao buscar informações, verifique sua conexão');
+    toast.error(
+      'Falha ao buscar informações do usuário, verifique sua conexão'
+    );
     yield put(filterUsersFailure());
   }
 }

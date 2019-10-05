@@ -27,7 +27,7 @@ export function* filterStarting({ payload }) {
     yield put(filterTeamsSuccess(teams, scores, rolesBase));
   } catch (err) {
     console.tron.error(err);
-    toast.error('Falha ao buscar informações, verifique sua conexão');
+    toast.error('Falha ao buscar informações dos times, verifique sua conexão');
     yield put(filterTeamsFailure());
   }
 }

@@ -24,9 +24,11 @@ export function* gettingUserPerTeam() {
     yield put(userPerTeamSuccess(possibility));
   } catch (err) {
     console.tron.error(err);
-    toast.error('Falha ao buscar informações, verifique sua conexão');
+    toast.error(
+      'Falha ao buscar informações de usuários por time, verifique sua conexão'
+    );
     yield put(userPerTeamFailure());
   }
 }
 
-export default all([takeLatest('@filterUsers/REQUEST', gettingUserPerTeam)]);
+export default all([takeLatest('@userPerTeam/REQUEST', gettingUserPerTeam)]);

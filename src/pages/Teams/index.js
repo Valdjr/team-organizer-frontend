@@ -1,13 +1,18 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import swal from '@sweetalert/with-react';
 import Dotdotdot from 'react-dotdotdot';
 import empty from 'is-empty';
+import { toast } from 'react-toastify';
 import { MdSettingsBackupRestore, MdFlashOn } from 'react-icons/md';
+
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import { actionsTeamsRequest } from '../../store/modules/actionsTeams/actions';
+import { userPerTeamRequest } from '../../store/modules/userPerTeam/actions';
 
 import Filter from '../../components/Filter';
 import UserLink from '../../components/UserLink';
 import ReactLoader from '../../components/Loader';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import {
@@ -40,19 +45,124 @@ const filterby = [
 ];
 
 export default function Teams() {
+  const dispatch = useDispatch();
+
   const { filterTeams_loading: loading, resultTeams } = useSelector(
     state => state.filterTeams
   );
+  const { possibilityPerTeam } = useSelector(state => state.userPerTeam);
+  const { actionsTeams_loading, actionMensagem } = useSelector(
+    state => state.actionsTeams
+  );
 
+  useEffect(() => {
+    async function fechData() {
+      await dispatch(userPerTeamRequest({}));
+    }
+    fechData();
+  }, [dispatch]);
+
+  useEffect(() => {
+    async function fechData() {
+      if (
+        swal.getState().isOpen &&
+        !actionsTeams_loading &&
+        !empty(actionMensagem)
+      ) {
+        toast.success(actionMensagem, {
+          onClose: () => window.location.reload(),
+        });
+        swal.close();
+      }
+    }
+    fechData();
+  }, [actionMensagem, actionsTeams_loading]);
+
+  function handleActionTeam(the_action) {
+    let mensagem = '';
+    let confirm_text = '';
+    switch (the_action) {
+      case 'sort':
+        if (possibilityPerTeam.sucesso === false) {
+          mensagem = (
+            <div>
+              <p>
+                There&apos;re still
+                <span> </span>
+                <span>
+                  {possibilityPerTeam.falta} user
+                  {possibilityPerTeam.falta > 1 && 's'} left
+                </span>
+                <span> </span>
+                until we can make all teams with the same amount of users.
+              </p>
+              <p>Do you wish to continue anyway?</p>
+            </div>
+          );
+        } else {
+          mensagem = (
+            <div>
+              <p>
+                You are about to sort all users by automatically placing them
+                within a team
+              </p>
+              <p>Do you wish to continue?</p>
+            </div>
+          );
+        }
+        confirm_text = 'Continue';
+        break;
+      case 'reset':
+        mensagem = (
+          <div>
+            <p>Do you really wanna reset all the teams?</p>
+            <p>This means any team won&apos;t more available.</p>
+          </div>
+        );
+        confirm_text = 'Sure!';
+        break;
+      default:
+    }
+
+    swal({
+      title: 'Warning',
+      buttons: {
+        cancel: true,
+        confirm: { text: confirm_text, closeModal: false },
+      },
+      dangerMode: true,
+      content: mensagem,
+    }).then(async confirmed => {
+      if (confirmed !== null) {
+        await dispatch(actionsTeamsRequest(the_action));
+      }
+    });
+  }
+
+  const isTeamOkay = resultTeams.local === 'teams' && !empty(resultTeams.teams);
   return (
     <>
       <ContentTitleButton>
         <h1>Teams</h1>
-        <SortButton variant="contained" size="large">
+        <SortButton
+          variant="contained"
+          size="large"
+          onClick={() => {
+            handleActionTeam('sort');
+          }}
+          {...(!loading && !isTeamOkay ? {} : { disabled: true })}
+        >
           <MdFlashOn size={23} />
           AUTO SORT TEAM
         </SortButton>
-        <ResetButton variant="outlined" size="large">
+        <ResetButton
+          variant="outlined"
+          size="large"
+          onClick={() => {
+            handleActionTeam('reset');
+          }}
+          {...(!loading && isTeamOkay ? {} : { disabled: true })}
+        >
           <MdSettingsBackupRestore size={23} />
           RESET TEAMS
         </ResetButton>
@@ -63,7 +173,7 @@ export default function Teams() {
           <ReactLoader />
         ) : (
           <>
-            {resultTeams.local === 'teams' && !empty(resultTeams.teams) ? (
+            {isTeamOkay ? (
               <>
                 {resultTeams.teams.map(team => (
                   <Group key={`${team._id}`}>
