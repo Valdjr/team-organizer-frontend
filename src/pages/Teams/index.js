@@ -5,6 +5,10 @@ import FlashOn from '@material-ui/icons/FlashOn';
 import Filter from '../../components/Filter';
 import { ContentTitleButton } from './styles';
 
+import ReactLoader from '../../components/Loader';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+
 export default function Teams() {
   const filterby = [
     {

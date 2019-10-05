@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { Nav, LogoContainer } from './styles';
+import Logo from '../../assets/logo.svg';
+
 import {
   MdArrowBack,
-  MdInsertChart,
   MdPieChart,
   MdPerson,
   MdPeople,
   MdSettings,
 } from 'react-icons/md';
-
-import { Nav } from './styles';
 
 import history from '../../services/history';
 
@@ -37,9 +37,9 @@ export default function Navigation() {
 
   return (
     <Nav>
-      <div>
-        <MdInsertChart color={iconColor} size={iconSize} />
-      </div>
+      <LogoContainer>
+        <img src={Logo} alt="Logo" />
+      </LogoContainer>
       <ul>
         {icons.map(([url, Icon]) => {
           const active = currentUrl === url;

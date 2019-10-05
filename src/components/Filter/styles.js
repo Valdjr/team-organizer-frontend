@@ -1,9 +1,14 @@
 import { CardContent, InputBase, Select } from '@material-ui/core';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+import { fadeIn } from 'react-animations';
+export const fade = keyframes`${fadeIn}`;
 
 export const ContentFilters = styled.div`
   display: flex;
   flex-flow: row wrap;
+  animation: 0.4s ${fade} ease;
+
   & > *:not(:first-child) {
     margin-left: 20px;
   }

@@ -5,7 +5,9 @@ import Dotdotdot from 'react-dotdotdot';
 import empty from 'is-empty';
 import crypto from 'crypto';
 
-import { Scrollbars } from 'react-custom-scrollbars';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import ReactLoader from '../../components/Loader';
 import Filter from '../../components/Filter';
 
 import {
@@ -14,6 +16,7 @@ import {
   ContentScore,
 } from '../../styles/global';
 import {
+  PageTitle,
   Group,
   GroupTitle,
   Participants,
@@ -64,11 +67,11 @@ export default function Users() {
 
   return (
     <>
-      <h1>Users</h1>
+      <PageTitle>Users</PageTitle>
       <Filter filterby={filterby} sortby={sortby} who="users" />
       <ContentPage>
         {loading ? (
-          <SimpleInformation>Loading...</SimpleInformation>
+          <ReactLoader />
         ) : (
           <>
             {resultUsers.local === 'users' && resultUsers.users.length > 0 ? (
@@ -88,7 +91,14 @@ export default function Users() {
                           )}
                           <span>({group.users.length})</span>
                         </GroupTitle>
-                        <Scrollbars style={{ width: '100%', height: 225 }}>
+                        <PerfectScrollbar
+                          className="scrollbar"
+                          option={{
+                            suppressScrollY: true,
+                            wheelPropagation: true,
+                            useBothWheelAxes: true,
+                          }}
+                        >
                           <Participants>
                             {group.users.map(user => (
                               <Participant key={`${user._id}`}>
@@ -116,7 +126,7 @@ export default function Users() {
                               </Participant>
                             ))}
                           </Participants>
-                        </Scrollbars>
+                        </PerfectScrollbar>
                       </>
                     ) : (
                       <></>

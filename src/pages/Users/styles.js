@@ -1,17 +1,27 @@
 import styled, { keyframes } from 'styled-components';
 import { Card } from '@material-ui/core';
 
-import { bounceIn } from 'react-animations';
+import { bounceIn, fadeIn } from 'react-animations';
 export const bounce = keyframes`${bounceIn}`;
+export const fade = keyframes`${fadeIn}`;
+
+export const PageTitle = styled.h1`
+  animation: 0.3s ${fade} ease;
+`;
 
 export const Group = styled.div`
   display: flex;
   flex-direction: column;
+
+  .scrollbar {
+    padding-bottom: 20px;
+  }
 `;
 
 export const GroupTitle = styled.h2`
   font-size: 35px;
   margin-bottom: 25px;
+
   & > * {
     margin-right: 10px;
   }

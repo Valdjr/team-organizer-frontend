@@ -43,3 +43,12 @@ export const Nav = styled.nav`
     }
   }
 `;
+
+export const LogoContainer = styled.div`
+  padding: 10px;
+
+  img {
+    width: 100%;
+    padding: 12px 2px;
+  }
+`;

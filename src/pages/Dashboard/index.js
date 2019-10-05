@@ -11,6 +11,8 @@ import 'semantic-ui-css/components/icon.min.css';
 import { filterUsersRequest } from '../../store/modules/filterUsers/actions';
 import { userPerTeamRequest } from '../../store/modules/userPerTeam/actions';
 
+import ReactLoader from '../../components/Loader';
+
 import {
   OverviewTitle,
   SwitchButton,
@@ -23,6 +25,7 @@ import {
   StatusData,
   AdviceContent,
   AdviceLine,
+  PageTitle,
 } from './styles';
 import {
   ContentPage,
@@ -82,10 +85,10 @@ export default function Dashboard() {
 
   return (
     <>
-      <h1>Current Status</h1>
+      <PageTitle>Current Status</PageTitle>
       <ContentPage>
         {loading ? (
-          <SimpleInformation>Loading...</SimpleInformation>
+          <ReactLoader />
         ) : (
           <>
             <LineInformations>

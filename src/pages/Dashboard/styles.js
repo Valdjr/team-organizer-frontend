@@ -1,10 +1,19 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Button } from '@material-ui/core';
+
+import { bounceIn, fadeIn } from 'react-animations';
+export const bounce = keyframes`${bounceIn}`;
+export const fade = keyframes`${fadeIn}`;
+
+export const PageTitle = styled.h1`
+  animation: 0.3s ${fade} ease;
+`;
 
 export const LineInformations = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  animation: 0.3s ${fade} ease;
 `;
 
 export const CurrentStatusContent = styled.div`
