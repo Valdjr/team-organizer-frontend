@@ -67,6 +67,9 @@ export const SwitchButton = styled(Button)`
   svg {
     margin-right: 5px;
   }
+  &:hover {
+    background: #fff !important;
+  }
 `;
 
 export const TableContent = styled.div`

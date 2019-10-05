@@ -2,6 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import { Card } from '@material-ui/core';
 
 import { bounceIn } from 'react-animations';
+
 export const bounce = keyframes`${bounceIn}`;
 
 export const Group = styled.div`

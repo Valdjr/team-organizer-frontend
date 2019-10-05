@@ -113,7 +113,7 @@ export default function Dashboard() {
                   </StatusData>
                 </StatusOne>
               </CurrentStatusContent>
-              {isTeamOkay ? (
+              {!isTeamOkay ? (
                 <AdviceContent>
                   <AdviceLine>
                     <Popup
