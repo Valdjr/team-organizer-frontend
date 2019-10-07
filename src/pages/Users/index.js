@@ -82,8 +82,6 @@ export default function Users() {
     }
   }, [resultUsers]);
 
-  console.log(resultUsers.users);
-
   return (
     <>
       <PageTitle>Users</PageTitle>
