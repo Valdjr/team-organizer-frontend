@@ -52,7 +52,7 @@ export default function Dashboard() {
 
   const loading =
     (filterUsers_loading || filterTeams_loading || userPerTeam_loading) &&
-    empty(allTeamsDa);
+    (callUsers === 1 && empty(allTeamsDa));
 
   const propsPopup = {
     style: { background: '#FF5700', color: '#fff' },
@@ -153,7 +153,7 @@ export default function Dashboard() {
                       </StatusData>
                     </StatusOne>
 
-                    {possibilityPerTeam.sucesso === true ? (
+                    {possibilityPerTeam.sucesso === false ? (
                       <StatusOne>
                         <span>
                           <StatusTitle>USERS REMAINING</StatusTitle>
