@@ -10,42 +10,54 @@ export const PageTitle = styled.h1`
 `;
 
 export const LineInformations = styled.div`
-  width: 100%;
   display: flex;
+  flex-wrap: wrap;
+  width: 100%;
   justify-content: space-between;
   animation: 0.3s ${fade} ease;
 `;
 
 export const CurrentStatusContent = styled.div`
+  display: flex;
   width: fit-content;
   border-bottom: 1px solid rgba(34, 36, 38, 0.1);
   padding-bottom: 15px;
-  display: flex;
+
   & > * {
     margin-right: 40px;
   }
 `;
 
-export const StatusOne = styled.div``;
+export const StatusOne = styled.div`
+  span {
+    display: flex;
+  }
+`;
 
 export const StatusTitle = styled.div``;
 
 export const StatusData = styled.div`
   font-size: 35px;
   font-weight: 800;
+
+  span {
+    margin-top: 4px;
+  }
 `;
 
-export const AdviceContent = styled.div``;
-
-export const AdviceLine = styled.div`
+export const AdviceContent = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 7px;
-  font-size: 17px;
-  font-weight: 600;
+  width: fit-content;
+  padding-bottom: 15px;
+
+  & > * {
+    margin-right: 40px;
+  }
+
   svg {
-    cursor: pointer;
-    margin-right: 12px;
+    cursor: help;
+    margin-left: 3px;
   }
 `;
 

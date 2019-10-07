@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import empty from 'is-empty';
-import { MdLoop, MdLink, MdAnnouncement } from 'react-icons/md';
+import { MdLoop, MdLink, MdInfo } from 'react-icons/md';
 import { Table, Popup } from 'semantic-ui-react';
 
 import 'semantic-ui-css/components/table.min.css';
@@ -25,7 +25,6 @@ import {
   StatusTitle,
   StatusData,
   AdviceContent,
-  AdviceLine,
   PageTitle,
   UsersRemaining,
 } from './styles';
@@ -59,7 +58,7 @@ export default function Dashboard() {
     size: 'tiny',
     basic: true,
     position: 'bottom center',
-    trigger: <MdAnnouncement size={20} color="#FF5700" />,
+    trigger: <MdInfo size={14} color="#FF5700" />,
   };
 
   function handleSwtichData() {
@@ -104,45 +103,50 @@ export default function Dashboard() {
                 <StatusOne>
                   <StatusTitle>AVG. SCORE</StatusTitle>
                   <StatusData>
-                    <ContentScore>
-                      {isTeamScoreTeamOkay
-                        ? resultTeams.scoresTeams.average
-                        : 0}
-                    </ContentScore>
+                    <span>
+                      <ContentScore>
+                        {isTeamScoreTeamOkay
+                          ? resultTeams.scoresTeams.average
+                          : 0}
+                      </ContentScore>
+                    </span>
                   </StatusData>
                 </StatusOne>
-              </CurrentStatusContent>
-              {!isTeamOkay ? (
-                <AdviceContent>
-                  <AdviceLine>
-                    <Popup
-                      content="This is the number of teams the system could create, based on the rules defined in Settings and the current user number."
-                      {...propsPopup}
-                    />
-                    <span>
-                      TEAM NUMBER MAX: {possibilityPerTeam.numeroDeTimes}
-                    </span>
-                  </AdviceLine>
-                  {possibilityPerTeam.sucesso === false ? (
-                    <AdviceLine>
-                      <Popup
-                        content="This shows how many signed up users are left to create all teams with the same amount of users inside."
-                        {...propsPopup}
-                      />
+                {!isTeamOkay ? (
+                  <AdviceContent>
+                    <StatusOne>
                       <span>
-                        USERS REMAINING:
-                        <UsersRemaining>
-                          {possibilityPerTeam.falta}
-                        </UsersRemaining>
+                        <StatusTitle>TEAM NUMBER MAX</StatusTitle>
+                        <Popup
+                          content="This is the number of teams that TeamMaker can generate, based on the rules defined in Settings and the current user amount."
+                          {...propsPopup}
+                        />
                       </span>
-                    </AdviceLine>
-                  ) : (
-                    <></>
-                  )}
-                </AdviceContent>
-              ) : (
-                <></>
-              )}
+                      <StatusData>
+                        {possibilityPerTeam.numeroDeTimes}
+                      </StatusData>
+                    </StatusOne>
+
+                    {possibilityPerTeam.sucesso === true ? (
+                      <StatusOne>
+                        <span>
+                          <StatusTitle>USERS REMAINING</StatusTitle>
+                          <Popup
+                            content="This shows how many signed up users are left to create all teams with the same amount of users inside."
+                            {...propsPopup}
+                          />
+                        </span>
+                        {/* <StatusData>{possibilityPerTeam.falta}</StatusData> */}
+                        <StatusData>9</StatusData>
+                      </StatusOne>
+                    ) : (
+                      <></>
+                    )}
+                  </AdviceContent>
+                ) : (
+                  <></>
+                )}
+              </CurrentStatusContent>
             </LineInformations>
             <OverviewTitle>
               <span>Overview {toSwitch.current}</span>
