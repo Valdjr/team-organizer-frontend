@@ -8,10 +8,11 @@ import { filterUsersSuccess, filterUsersFailure } from './actions';
 
 export function* filterStarting({ payload }) {
   try {
-    const { id, filter, search, sort } = payload;
+    const { id, page, filter, search, sort } = payload;
 
     const validId = !empty(id) ? `/${id}` : '';
-    let URL = `users${validId}?`;
+    const validPage = !empty(page) ? `page=${page}&limit=${30}` : '';
+    let URL = `users${validId}?${validPage}`;
     if (empty(validId)) {
       URL += !empty(filter) ? `&filter=${filter}` : '';
       URL += !empty(search) ? `&search=${search}` : '';
@@ -19,8 +20,9 @@ export function* filterStarting({ payload }) {
     }
     const responseFilter = yield call(api.get, URL);
     const users = [...responseFilter.data.users];
+    const { qtd } = responseFilter.data;
 
-    yield put(filterUsersSuccess(users));
+    yield put(filterUsersSuccess(users, qtd));
   } catch (err) {
     console.tron.error(err);
     toast.error(

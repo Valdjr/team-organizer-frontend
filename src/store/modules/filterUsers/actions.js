@@ -5,10 +5,10 @@ export function filterUsersRequest(collectionFilters) {
   };
 }
 
-export function filterUsersSuccess(users) {
+export function filterUsersSuccess(users, qtd) {
   return {
     type: '@filterUsers/SUCCESS',
-    payload: { users },
+    payload: { users, qtd },
   };
 }
 

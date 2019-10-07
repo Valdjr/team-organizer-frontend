@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import swal from '@sweetalert/with-react';
 import Dotdotdot from 'react-dotdotdot';
 import empty from 'is-empty';
 import { toast } from 'react-toastify';
 import { MdSettingsBackupRestore, MdFlashOn } from 'react-icons/md';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { filterParmsReset } from '../../store/modules/filterParms/actions';
 import { actionsTeamsRequest } from '../../store/modules/actionsTeams/actions';
 import { userPerTeamRequest } from '../../store/modules/userPerTeam/actions';
 
@@ -38,7 +40,7 @@ const filterby = [
     selected: true,
   },
   {
-    name: 'Score',
+    name: 'Score >',
     value: 'scoreTeam',
     selected: false,
   },
@@ -47,7 +49,11 @@ const filterby = [
 export default function Teams() {
   const dispatch = useDispatch();
 
-  const { filterTeams_loading: loading, resultTeams } = useSelector(
+  const [pageTeams, setPageTeams] = useState(1);
+  const [allTeams, setAllTeams] = useState([]);
+
+  const { needToResetPage } = useSelector(state => state.filterParms);
+  const { filterTeams_loading, resultTeams } = useSelector(
     state => state.filterTeams
   );
   const { possibilityPerTeam } = useSelector(state => state.userPerTeam);
@@ -55,27 +61,45 @@ export default function Teams() {
     state => state.actionsTeams
   );
 
-  useEffect(() => {
-    async function fechData() {
-      await dispatch(userPerTeamRequest({}));
-    }
-    fechData();
-  }, [dispatch]);
+  const loading = needToResetPage || (filterTeams_loading && empty(allTeams));
 
   useEffect(() => {
-    async function fechData() {
-      if (
-        swal.getState().isOpen &&
-        !actionsTeams_loading &&
-        !empty(actionMensagem)
-      ) {
-        toast.success(actionMensagem, {
-          onClose: () => window.location.reload(),
-        });
-        swal.close();
+    if (resultTeams.local === 'teams') {
+      if (needToResetPage) {
+        if (!empty(resultTeams.teams)) {
+          setAllTeams(resultTeams.teams);
+        } else {
+          setAllTeams();
+        }
+      } else if (!empty(resultTeams.teams)) {
+        setAllTeams(allTeams.concat(resultTeams.teams));
       }
     }
-    fechData();
+    if (needToResetPage) {
+      dispatch(filterParmsReset());
+    }
+  }, [resultTeams.teams]);
+
+  useEffect(() => {
+    dispatch(userPerTeamRequest({}));
+  }, []);
+
+  useEffect(() => {
+    if (
+      swal.getState().isOpen &&
+      !actionsTeams_loading &&
+      !empty(actionMensagem)
+    ) {
+      swal({
+        title: 'Success',
+        text: actionMensagem,
+        icon: 'success',
+        buttons: false,
+        timer: 3000,
+      }).then(() => {
+        window.location.reload();
+      });
+    }
   }, [actionMensagem, actionsTeams_loading]);
 
   function handleActionTeam(the_action) {
@@ -139,7 +163,6 @@ export default function Teams() {
     });
   }
 
-  const isTeamOkay = resultTeams.local === 'teams' && !empty(resultTeams.teams);
   return (
     <>
       <ContentTitleButton>
@@ -150,7 +173,9 @@ export default function Teams() {
           onClick={() => {
             handleActionTeam('sort');
           }}
-          {...(!loading && !isTeamOkay ? {} : { disabled: true })}
+          {...(!loading && empty(allTeams) && resultTeams.qtd === 0
+            ? {}
+            : { disabled: true })}
         >
           <MdFlashOn size={23} />
           AUTO SORT TEAM
@@ -161,21 +186,27 @@ export default function Teams() {
           onClick={() => {
             handleActionTeam('reset');
           }}
-          {...(!loading && isTeamOkay ? {} : { disabled: true })}
+          {...(!loading && !empty(allTeams) ? {} : { disabled: true })}
         >
           <MdSettingsBackupRestore size={23} />
           RESET TEAMS
         </ResetButton>
       </ContentTitleButton>
-      <Filter filterby={filterby} who="teams" />
+      <Filter filterby={filterby} who="teams" ThisPage={pageTeams} />
       <ContentPage>
         {loading ? (
           <ReactLoader />
         ) : (
           <>
-            {isTeamOkay ? (
-              <>
-                {resultTeams.teams.map(team => (
+            {!empty(allTeams) ? (
+              <InfiniteScroll
+                dataLength={allTeams.length}
+                next={() => {
+                  setPageTeams(needToResetPage ? 1 : pageTeams + 1);
+                }}
+                hasMore={allTeams.length !== resultTeams.qtd}
+              >
+                {allTeams.map(team => (
                   <Group key={`${team._id}`}>
                     {!empty(team.users) ? (
                       <>
@@ -186,7 +217,7 @@ export default function Teams() {
                         </GroupTitle>
                         <PerfectScrollbar
                           className="scrollbar"
-                          option={{
+                          options={{
                             suppressScrollY: true,
                             wheelPropagation: true,
                             useBothWheelAxes: true,
@@ -226,7 +257,7 @@ export default function Teams() {
                     )}
                   </Group>
                 ))}
-              </>
+              </InfiniteScroll>
             ) : (
               <SimpleInformation>
                 Nothing found!

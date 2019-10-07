@@ -23,13 +23,12 @@ export function* Acting({ payload }) {
       default:
     }
 
-    const responseAction = yield call(api[method], `team/${url}`);
-    console.tron.error(responseAction.data);
+    const responseAction = yield call(api[method], `team/${url}/`);
 
     let mensagem = '';
     switch (the_action) {
       case 'reset':
-        mensagem = responseAction.data.ok;
+        mensagem = `It has been delete ${responseAction.data.qtd} teams`;
         break;
       case 'sort':
         mensagem = `It has been created ${responseAction.data.qtd} teams`;

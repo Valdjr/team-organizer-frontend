@@ -1,7 +1,7 @@
 import { CardContent, InputBase, Select } from '@material-ui/core';
 import styled, { keyframes } from 'styled-components';
-
 import { fadeIn } from 'react-animations';
+
 export const fade = keyframes`${fadeIn}`;
 
 export const ContentFilters = styled.div`

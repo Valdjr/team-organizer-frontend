@@ -5,6 +5,7 @@ import auth from './auth/reducer';
 import filterUsers from './filterUsers/reducer';
 import filterTeams from './filterTeams/reducer';
 import userPerTeam from './userPerTeam/reducer';
+import filterParms from './filterParms/reducer';
 
 export default combineReducers({
   auth,
@@ -12,4 +13,5 @@ export default combineReducers({
   filterTeams,
   actionsTeams,
   userPerTeam,
+  filterParms,
 });

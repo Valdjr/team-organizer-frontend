@@ -15,10 +15,11 @@ export default function filterTeams(state = INITIAL_STATE, action) {
         break;
       }
       case '@filterTeams/SUCCESS': {
-        const { teams, scoresTeams, rolesBase } = action.payload;
+        const { teams, qtd, scoresTeams, rolesBase } = action.payload;
         draft.resultTeams = {
           local: history.location.pathname.split('/')[1],
           teams,
+          qtd,
           scoresTeams,
           rolesBase,
         };

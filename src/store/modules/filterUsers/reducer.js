@@ -18,6 +18,7 @@ export default function filterUsers(state = INITIAL_STATE, action) {
         draft.resultUsers = {
           local: history.location.pathname.split('/')[1],
           users: [...action.payload.users],
+          qtd: action.payload.qtd,
         };
         draft.filterUsers_loading = false;
         break;

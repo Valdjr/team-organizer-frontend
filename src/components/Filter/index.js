@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MenuItem } from '@material-ui/core';
 import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownOutlined';
 import { MdSearch } from 'react-icons/md';
 
+import { filterParmsChange } from '../../store/modules/filterParms/actions';
 import { filterUsersRequest } from '../../store/modules/filterUsers/actions';
 import { filterTeamsRequest } from '../../store/modules/filterTeams/actions';
 
@@ -20,30 +21,40 @@ import {
 
 let timer = null;
 
-export default function Filters({ filterby, sortby, who }) {
+export default function Filters({ filterby, sortby, ThisPage, who }) {
   const dispatch = useDispatch();
 
-  const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState(
+  const [searchWait, setSearchWait] = useState('');
+  const [searchTyped, setSearchTyped] = useState('');
+  const [filterChoosed, setFilterChoosed] = useState(
     filterby.length > 0 ? filterby.find(x => x.selected === true).value : ''
   );
-  const [sort, setSort] = useState(
+  const [sortChoosed, setSortChoosed] = useState(
     sortby.length > 0 ? sortby.find(x => x.selected === true).value : ''
   );
-  const [par, setPar] = useState({
-    filter,
-    search,
-    sort,
-  });
+  useEffect(() => {
+    dispatch(
+      filterParmsChange({
+        filter: filterChoosed,
+        search: searchWait,
+        sort: sortChoosed,
+        page: ThisPage,
+      })
+    );
+  }, [dispatch, filterChoosed, searchWait, sortChoosed, ThisPage]);
+
+  const { filter, search, sort, page } = useSelector(
+    state => state.filterParms
+  );
 
   useEffect(() => {
     switch (who) {
       case 'users':
         dispatch(
           filterUsersRequest({
-            filter: par.filter,
-            search: par.search,
-            sort: par.sort,
+            filter,
+            search,
+            sort,
           })
         );
         break;
@@ -51,35 +62,39 @@ export default function Filters({ filterby, sortby, who }) {
         dispatch(
           filterTeamsRequest({
             withUsers: true,
-            filter: par.filter,
-            search: par.search,
+            page,
+            filter,
+            search,
           })
         );
         break;
       default:
     }
-  }, [dispatch, par, who]);
+  }, [dispatch, filter, search, sort, page, who]);
 
   function handleSearch(event) {
     clearTimeout(timer);
     const currentValue = event.target.value;
     if (event.type === 'keydown' && event.keyCode === 13) {
-      setPar({ filter, search: currentValue, sort });
+      setSearchWait(currentValue);
     } else {
-      setSearch(currentValue);
+      setSearchTyped(currentValue);
       timer = setTimeout(() => {
-        setPar({ filter, search: currentValue, sort });
+        setSearchWait(currentValue);
       }, 300);
     }
   }
 
   function handleChangeFilter(event) {
-    setFilter(event.target.value);
+    setFilterChoosed(event.target.value);
+    if (who === 'teams') {
+      setSearchTyped('');
+      setSearchWait('');
+    }
   }
 
   function handleChangeSort(event) {
-    setSort(event.target.value);
-    setPar({ filter, search, sort: event.target.value });
+    setSortChoosed(event.target.value);
   }
 
   const [widthFilter, setWidthFilter] = useState('0px');
@@ -135,7 +150,7 @@ export default function Filters({ filterby, sortby, who }) {
             <MdSearch color="#3E3E3E" size={25} />
             <InputNaked
               type="search"
-              value={search}
+              value={searchTyped}
               placeholder="SEARCH..."
               inputProps={{ 'aria-label': 'SEARCH...' }}
               onChange={handleSearch}
@@ -183,10 +198,12 @@ Filters.propTypes = {
       selected: PropTypes.bool,
     })
   ),
+  ThisPage: PropTypes.number,
   who: PropTypes.string.isRequired,
 };
 
 Filters.defaultProps = {
+  ThisPage: 1,
   filterby: [],
   sortby: [],
 };
