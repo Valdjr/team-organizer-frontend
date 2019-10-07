@@ -37,8 +37,9 @@ export default function Dashboard() {
 
   const [toSwitch, setToSwtich] = useState({ current: 'Users', next: 'Teams' });
   const [pageUsers, setPageUsers] = useState(1);
+  const [callUsers, setCallUsers] = useState(1);
   const [allUsers, setAllUsers] = useState([]);
-  const [pageTeams, setPageTeams] = useState(1);
+  const [pageTeamsDa, setPageTeamsDa] = useState(1);
   const [allTeamsDa, setAllTeamsDa] = useState([]);
 
   const { filterUsers_loading, resultUsers } = useSelector(
@@ -53,7 +54,7 @@ export default function Dashboard() {
 
   const loading =
     (filterUsers_loading || filterTeams_loading || userPerTeam_loading) &&
-    empty(allUsers);
+    empty(allTeamsDa);
 
   const propsPopup = {
     style: { background: '#FF5700', color: '#fff' },
@@ -69,29 +70,31 @@ export default function Dashboard() {
     setToSwtich({ current: newCurrent, next: oldCurrent });
   }
 
-  const handleFilterUser = useCallback(() => {
+  useEffect(() => {
     dispatch(filterUsersRequest({ page: pageUsers }));
-  }, [dispatch, pageUsers]);
+  }, [pageUsers]);
 
   useEffect(() => {
-    if (resultUsers.local === 'dashboard' && !empty(resultUsers.users)) {
+    // callUsers é uma gambiarra
+    if (
+      resultUsers.local === 'dashboard' &&
+      !empty(resultUsers.users) &&
+      pageUsers === callUsers
+    ) {
       setAllUsers(allUsers.concat(resultUsers.users));
+      setCallUsers(callUsers + 1);
     }
   }, [resultUsers.users]);
 
   useEffect(() => {
-    handleFilterUser();
-  }, [handleFilterUser]);
-
-  const handleFilterTeams = useCallback(() => {
     dispatch(
       filterTeamsRequest({
-        page: pageTeams,
+        page: pageTeamsDa,
         withUsers: 'roles',
         scoresTeams: true,
       })
     );
-  }, [pageTeams]);
+  }, [dispatch, pageTeamsDa]);
 
   useEffect(() => {
     if (resultTeams.local === 'dashboard') {
@@ -102,10 +105,6 @@ export default function Dashboard() {
       }
     }
   }, [resultTeams.teams]);
-
-  useEffect(() => {
-    handleFilterTeams();
-  }, [handleFilterTeams]);
 
   return (
     <>
@@ -253,7 +252,7 @@ export default function Dashboard() {
                 <InfiniteScroll
                   dataLength={allTeamsDa.length}
                   next={() => {
-                    setPageTeams(pageTeams + 1);
+                    setPageTeamsDa(pageTeamsDa + 1);
                   }}
                   hasMore={allTeamsDa.length !== resultTeams.qtd}
                 >

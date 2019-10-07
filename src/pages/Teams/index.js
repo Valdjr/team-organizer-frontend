@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import swal from '@sweetalert/with-react';
 import Dotdotdot from 'react-dotdotdot';
 import empty from 'is-empty';
-import { toast } from 'react-toastify';
 import { MdSettingsBackupRestore, MdFlashOn } from 'react-icons/md';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -78,7 +77,7 @@ export default function Teams() {
     if (needToResetPage) {
       dispatch(filterParmsReset());
     }
-  }, [resultTeams.teams]);
+  }, [resultTeams]);
 
   useEffect(() => {
     dispatch(userPerTeamRequest({}));
@@ -186,7 +185,7 @@ export default function Teams() {
           onClick={() => {
             handleActionTeam('reset');
           }}
-          {...(!loading && !empty(allTeams) ? {} : { disabled: true })}
+          {...(!loading && resultTeams.qtd > 0 ? {} : { disabled: true })}
         >
           <MdSettingsBackupRestore size={23} />
           RESET TEAMS

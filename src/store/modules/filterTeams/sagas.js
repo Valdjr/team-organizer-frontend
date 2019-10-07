@@ -11,7 +11,7 @@ export function* filterStarting({ payload }) {
     const { id, page, filter, search, withUsers, scoresTeams } = payload;
 
     const validId = !empty(id) ? `/${id}` : '';
-    const validPage = !empty(page) ? `page=${page}&limit=${30}` : '';
+    const validPage = !empty(page) ? `page=${page}&limit=${20}` : '';
     let URL = `team${validId}?${validPage}`;
     if (empty(validId)) {
       URL += !empty(filter) ? `&filter=${filter}` : '';
