@@ -11,7 +11,8 @@ export function* filterStarting({ payload }) {
     const { id, page, filter, search, sort } = payload;
 
     const validId = !empty(id) ? `/${id}` : '';
-    const validPage = !empty(page) ? `page=${page}&limit=${30}` : '';
+    const limit = empty(filter) ? 30 : 15;
+    const validPage = !empty(page) ? `page=${page}&limit=${limit}` : '';
     let URL = `users${validId}?${validPage}`;
     if (empty(validId)) {
       URL += !empty(filter) ? `&filter=${filter}` : '';

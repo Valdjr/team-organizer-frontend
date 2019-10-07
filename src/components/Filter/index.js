@@ -52,6 +52,7 @@ export default function Filters({ filterby, sortby, ThisPage, who }) {
       case 'users':
         dispatch(
           filterUsersRequest({
+            page,
             filter,
             search,
             sort,
