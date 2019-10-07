@@ -5,10 +5,10 @@ export function filterTeamsRequest(collectionFilters) {
   };
 }
 
-export function filterTeamsSuccess(teams, scoresTeams, rolesBase) {
+export function filterTeamsSuccess(teams, qtd, scoresTeams, rolesBase) {
   return {
     type: '@filterTeams/SUCCESS',
-    payload: { teams, scoresTeams, rolesBase },
+    payload: { teams, qtd, scoresTeams, rolesBase },
   };
 }
 

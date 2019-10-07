@@ -8,10 +8,11 @@ import { filterTeamsSuccess, filterTeamsFailure } from './actions';
 
 export function* filterStarting({ payload }) {
   try {
-    const { id, filter, search, withUsers, scoresTeams } = payload;
+    const { id, page, filter, search, withUsers, scoresTeams } = payload;
 
     const validId = !empty(id) ? `/${id}` : '';
-    let URL = `team${validId}?`;
+    const validPage = !empty(page) ? `page=${page}&limit=${20}` : '';
+    let URL = `team${validId}?${validPage}`;
     if (empty(validId)) {
       URL += !empty(filter) ? `&filter=${filter}` : '';
       URL += !empty(search) ? `&search=${search}` : '';
@@ -19,15 +20,15 @@ export function* filterStarting({ payload }) {
       URL += !empty(scoresTeams) ? '&scoresTeams=true' : '';
     }
     const responseFilter = yield call(api.get, URL);
-    const { teams } = responseFilter.data;
+    const { teams, qtd } = responseFilter.data;
     const scores = scoresTeams ? responseFilter.data.scoresTeams : '';
     const rolesBase =
       withUsers === 'roles' ? responseFilter.data.rolesBase : '';
 
-    yield put(filterTeamsSuccess(teams, scores, rolesBase));
+    yield put(filterTeamsSuccess(teams, qtd, scores, rolesBase));
   } catch (err) {
     console.tron.error(err);
-    toast.error('Falha ao buscar informações, verifique sua conexão');
+    toast.error('Falha ao buscar informações dos times, verifique sua conexão');
     yield put(filterTeamsFailure());
   }
 }

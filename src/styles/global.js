@@ -1,12 +1,14 @@
-import styled, { keyframes, createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle, keyframes } from 'styled-components';
+import { darken } from 'polished';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { fadeIn } from 'react-animations';
+
 export const fade = keyframes`${fadeIn}`;
 
 export const ContentPage = styled.div`
   padding-top: 40px;
-  & > *:not(:first-child) {
+  & > *:not(:first-child):visible {
     margin-top: 40px;
   }
 `;
@@ -83,6 +85,48 @@ export default createGlobalStyle`
   @media only screen and (max-width: 768px) {
     h1 {
       font-size: 60px;
+    }
+  }
+
+  .swal-overlay{
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+  .swal-modal{
+    width: 490px;
+    background: transparentrgba(255, 255, 255, 0.50);
+  }
+  .swal-title{
+    font-size: 50px;
+    color: #ff5700;
+  }
+  .swal-content{
+    font-weight: 800;
+    font-size: 17px;
+    span{
+      color: #ff5700;
+    }
+  }
+  .swal-button{
+    font-size: 20px;
+    color: #ff5700;
+    background: #fff;
+    border: 1px solid rgba(255, 87, 0, 0.5);
+    &:hover {
+      background: ${darken(0.02, '#fff')} !important;
+    }
+    &:focus{
+      box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgba(255, 87, 0,1);
+    }
+
+    &.swal-button--danger{
+      background-color: #ff5700;
+      color: #fff;
+      &:hover {
+        background: ${darken(0.02, '#ff5700')} !important;
+      }
+      &.swal-button--loading{
+        color: #ff5700;
+      }
     }
   }
 `;

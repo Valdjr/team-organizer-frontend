@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import empty from 'is-empty';
 import { MdLoop, MdLink, MdInfo } from 'react-icons/md';
 import { Table, Popup } from 'semantic-ui-react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import 'semantic-ui-css/components/table.min.css';
 import 'semantic-ui-css/components/popup.min.css';
@@ -34,6 +35,11 @@ export default function Dashboard() {
   const dispatch = useDispatch();
 
   const [toSwitch, setToSwtich] = useState({ current: 'Users', next: 'Teams' });
+  const [pageUsers, setPageUsers] = useState(1);
+  const [callUsers, setCallUsers] = useState(1);
+  const [allUsers, setAllUsers] = useState([]);
+  const [pageTeamsDa, setPageTeamsDa] = useState(1);
+  const [allTeamsDa, setAllTeamsDa] = useState([]);
 
   const { filterUsers_loading, resultUsers } = useSelector(
     state => state.filterUsers
@@ -46,13 +52,9 @@ export default function Dashboard() {
   );
 
   const loading =
-    filterUsers_loading || filterTeams_loading || userPerTeam_loading;
-  const isUserOkay =
-    resultUsers.local === 'dashboard' && !empty(resultUsers.users);
-  const isTeamOkay =
-    resultTeams.local === 'dashboard' && !empty(resultTeams.teams);
-  const isTeamScoreTeamOkay =
-    resultTeams.local === 'dashboard' && !empty(resultTeams.scoresTeams);
+    (filterUsers_loading || filterTeams_loading || userPerTeam_loading) &&
+    empty(allTeamsDa);
+
   const propsPopup = {
     style: { background: '#FF5700', color: '#fff' },
     size: 'tiny',
@@ -68,15 +70,40 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
-    async function fechData() {
-      await dispatch(filterUsersRequest({}));
-      await dispatch(
-        filterTeamsRequest({ withUsers: 'roles', scoresTeams: true })
-      );
-      await dispatch(userPerTeamRequest({}));
+    dispatch(filterUsersRequest({ page: pageUsers }));
+  }, [pageUsers]);
+
+  useEffect(() => {
+    // callUsers é uma gambiarra
+    if (
+      resultUsers.local === 'dashboard' &&
+      !empty(resultUsers.users) &&
+      pageUsers === callUsers
+    ) {
+      setAllUsers(allUsers.concat(resultUsers.users));
+      setCallUsers(callUsers + 1);
     }
-    fechData();
-  }, [dispatch]);
+  }, [resultUsers.users]);
+
+  useEffect(() => {
+    dispatch(
+      filterTeamsRequest({
+        page: pageTeamsDa,
+        withUsers: 'roles',
+        scoresTeams: true,
+      })
+    );
+  }, [dispatch, pageTeamsDa]);
+
+  useEffect(() => {
+    if (resultTeams.local === 'dashboard') {
+      if (empty(resultTeams.teams)) {
+        dispatch(userPerTeamRequest());
+      } else {
+        setAllTeamsDa(allTeamsDa.concat(resultTeams.teams));
+      }
+    }
+  }, [resultTeams.teams]);
 
   return (
     <>
@@ -91,13 +118,13 @@ export default function Dashboard() {
                 <StatusOne>
                   <StatusTitle>USERS</StatusTitle>
                   <StatusData>
-                    {isUserOkay ? resultUsers.users.length : 0}
+                    {!empty(allUsers) ? resultUsers.qtd : 0}
                   </StatusData>
                 </StatusOne>
                 <StatusOne>
                   <StatusTitle>TEAMS</StatusTitle>
                   <StatusData>
-                    {isTeamOkay ? resultTeams.teams.length : 0}
+                    {!empty(allTeamsDa) ? resultTeams.qtd : 0}
                   </StatusData>
                 </StatusOne>
                 <StatusOne>
@@ -105,14 +132,14 @@ export default function Dashboard() {
                   <StatusData>
                     <span>
                       <ContentScore>
-                        {isTeamScoreTeamOkay
+                        {!empty(allTeamsDa) && !empty(resultTeams.scoresTeams)
                           ? resultTeams.scoresTeams.average
                           : 0}
                       </ContentScore>
                     </span>
                   </StatusData>
                 </StatusOne>
-                {!isTeamOkay ? (
+                {empty(allTeamsDa) ? (
                   <AdviceContent>
                     <StatusOne>
                       <span>
@@ -150,7 +177,7 @@ export default function Dashboard() {
             </LineInformations>
             <OverviewTitle>
               <span>Overview {toSwitch.current}</span>
-              {isTeamOkay ? (
+              {!empty(allTeamsDa) ? (
                 <SwitchButton variant="outlined" onClick={handleSwtichData}>
                   <MdLoop size={18} /> SWTICH TO {toSwitch.next.toUpperCase()}
                 </SwitchButton>
@@ -160,8 +187,14 @@ export default function Dashboard() {
             </OverviewTitle>
             <TableContent>
               {toSwitch.current === 'Users' ? (
-                <>
-                  {isUserOkay ? (
+                <InfiniteScroll
+                  dataLength={allUsers.length}
+                  next={() => {
+                    setPageUsers(pageUsers + 1);
+                  }}
+                  hasMore={allUsers.length !== resultUsers.qtd}
+                >
+                  {!empty(allUsers) ? (
                     <Table basic="very" collapsing selectable>
                       <Table.Header>
                         <Table.Row>
@@ -176,7 +209,7 @@ export default function Dashboard() {
                         </Table.Row>
                       </Table.Header>
                       <Table.Body>
-                        {resultUsers.users.map((us, index) => (
+                        {allUsers.map((us, index) => (
                           <Table.Row key={us._id}>
                             <Table.Cell>
                               <span className="id_image">
@@ -218,10 +251,16 @@ export default function Dashboard() {
                   ) : (
                     <></>
                   )}
-                </>
+                </InfiniteScroll>
               ) : (
-                <>
-                  {isTeamOkay ? (
+                <InfiniteScroll
+                  dataLength={allTeamsDa.length}
+                  next={() => {
+                    setPageTeamsDa(pageTeamsDa + 1);
+                  }}
+                  hasMore={allTeamsDa.length !== resultTeams.qtd}
+                >
+                  {!empty(allTeamsDa) ? (
                     <Table basic="very" collapsing selectable>
                       <Table.Header>
                         <Table.Row>
@@ -237,7 +276,7 @@ export default function Dashboard() {
                         </Table.Row>
                       </Table.Header>
                       <Table.Body>
-                        {resultTeams.teams.map((tm, index) => (
+                        {allTeamsDa.map((tm, index) => (
                           <Table.Row key={tm.name}>
                             <Table.Cell>{index + 1}</Table.Cell>
                             <Table.Cell>{tm.name}</Table.Cell>
@@ -261,7 +300,7 @@ export default function Dashboard() {
                   ) : (
                     <></>
                   )}
-                </>
+                </InfiniteScroll>
               )}
             </TableContent>
           </>

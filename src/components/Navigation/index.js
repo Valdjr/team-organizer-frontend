@@ -1,9 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-import { Nav, LogoContainer } from './styles';
-import Logo from '../../assets/logo.svg';
-
 import {
   MdArrowBack,
   MdPieChart,
@@ -11,6 +7,9 @@ import {
   MdPeople,
   MdSettings,
 } from 'react-icons/md';
+
+import { Nav, LogoContainer } from './styles';
+import Logo from '../../assets/logo.svg';
 
 import history from '../../services/history';
 
@@ -28,7 +27,8 @@ export default function Navigation() {
     icons.unshift(['back', MdArrowBack]);
   }
 
-  function handleThrowBack() {
+  function handleThrowBack(event) {
+    event.preventDefault();
     history.goBack();
   }
 
