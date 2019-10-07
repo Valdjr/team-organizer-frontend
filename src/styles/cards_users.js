@@ -2,6 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import { Card } from '@material-ui/core';
 
 import { bounceIn, fadeIn } from 'react-animations';
+
 export const bounce = keyframes`${bounceIn}`;
 export const fade = keyframes`${fadeIn}`;
 
@@ -10,7 +11,7 @@ export const PageTitle = styled.h1`
 `;
 
 export const Group = styled.div`
-  display: flex;
+  display: ${props => props.display || 'flex'};
   flex-direction: column;
 
   .scrollbar {

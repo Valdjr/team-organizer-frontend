@@ -101,7 +101,10 @@ export default function Users() {
             {resultUsers.local === 'users' && !empty(resultUsers.users) ? (
               <>
                 {resultUsers.users.map(group => (
-                  <Group key={`${group._id || Math.random() * 10}`}>
+                  <Group
+                    key={`${group._id || Math.random() * 10}`}
+                    display={empty(group.users) ? 'none' : 'flex'}
+                  >
                     {!empty(group.users) ? (
                       <>
                         <GroupTitle>
@@ -113,49 +116,45 @@ export default function Users() {
                           ) : (
                             <span>{group.name}</span>
                           )}
-                          <span>({group.users.length})</span>
+                          <span>({group.qtd})</span>
                         </GroupTitle>
-                        <InfiniteScroll>
-                          <PerfectScrollbar
-                            className="scrollbar"
-                            options={{
-                              suppressScrollY: true,
-                              wheelPropagation: true,
-                              useBothWheelAxes: true,
-                            }}
-                          >
-                            <Participants>
-                              {group.users.map(user => (
-                                <Participant key={`${user._id}`}>
-                                  <UserLink
-                                    userId={user._id}
-                                    userName={user.name}
-                                  >
-                                    <>
-                                      <ParticipantCard>
-                                        <img
-                                          src={user.avatar}
-                                          alt={user.name}
-                                        />
-                                        <RoleTitle>
-                                          {user.role_id.name.toUpperCase()}
-                                        </RoleTitle>
-                                      </ParticipantCard>
-                                      <ParticipantName>
-                                        <Dotdotdot clamp={2}>
-                                          {user.name.substring(
-                                            0,
-                                            `${user.name} `.indexOf(' ')
-                                          )}
-                                        </Dotdotdot>
-                                      </ParticipantName>
-                                    </>
-                                  </UserLink>
-                                </Participant>
-                              ))}
-                            </Participants>
-                          </PerfectScrollbar>
-                        </InfiniteScroll>
+
+                        <PerfectScrollbar
+                          className="scrollbar"
+                          options={{
+                            suppressScrollY: true,
+                            wheelPropagation: true,
+                            useBothWheelAxes: true,
+                          }}
+                        >
+                          <Participants>
+                            {group.users.map(user => (
+                              <Participant key={`${user._id}`}>
+                                <UserLink
+                                  userId={user._id}
+                                  userName={user.name}
+                                >
+                                  <>
+                                    <ParticipantCard>
+                                      <img src={user.avatar} alt={user.name} />
+                                      <RoleTitle>
+                                        {user.role_id.name.toUpperCase()}
+                                      </RoleTitle>
+                                    </ParticipantCard>
+                                    <ParticipantName>
+                                      <Dotdotdot clamp={2}>
+                                        {user.name.substring(
+                                          0,
+                                          `${user.name} `.indexOf(' ')
+                                        )}
+                                      </Dotdotdot>
+                                    </ParticipantName>
+                                  </>
+                                </UserLink>
+                              </Participant>
+                            ))}
+                          </Participants>
+                        </PerfectScrollbar>
                       </>
                     ) : (
                       <></>

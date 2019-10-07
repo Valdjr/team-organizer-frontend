@@ -8,7 +8,7 @@ export const fade = keyframes`${fadeIn}`;
 
 export const ContentPage = styled.div`
   padding-top: 40px;
-  & > *:not(:first-child) {
+  & > *:not(:first-child):visible {
     margin-top: 40px;
   }
 `;
