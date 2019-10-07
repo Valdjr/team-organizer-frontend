@@ -27,7 +27,6 @@ import {
   StatusData,
   AdviceContent,
   PageTitle,
-  UsersRemaining,
 } from './styles';
 import { ContentPage, ContentScore } from '../../styles/global';
 
@@ -163,8 +162,7 @@ export default function Dashboard() {
                             {...propsPopup}
                           />
                         </span>
-                        {/* <StatusData>{possibilityPerTeam.falta}</StatusData> */}
-                        <StatusData>9</StatusData>
+                        <StatusData>{possibilityPerTeam.falta}</StatusData>
                       </StatusOne>
                     ) : (
                       <></>
