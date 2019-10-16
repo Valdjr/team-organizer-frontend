@@ -22,11 +22,12 @@ The channels were filled with presentations and chatting, and it was too hard to
 TeamMaker is a response to that problem. The same platform that delivers the users sign up will also organize them by a score number based on their skills and the length of their professional experience. TeamMaker robot will calculate numbers and put the users on teams so that the total team score get balanced. That way the event can auto avoid teams which have only developers inside, or teams that have only the most experienced professionals. And the system can be used not only in hackathons, but in any event that has hundreds of people working in different activities.
 
 # How to contribute?
--Fork this repository;;
--Create a branch with your feature: git checkout -b my-feature
--Commit your changes: git commit -m 'feat: My Feature';
--Push to your branch: git push origin my-feature.
--Once your pull request merge is done, you can delete your branch.
+- Fork this repository;;
+- Create a branch with your feature: `git checkout -b my-feature`
+- Commit your changes: `git commit -m 'feat: My Feature'`;
+- Push to your branch: `git push origin my-feature`.
+- Once your pull request merge is done, you can delete your branch.
+
 
 # 📝 License
 This project is under the MIT license. See the LICENSE file for more details.
@@ -45,12 +46,15 @@ Nosso projeto está em desenvolvimento. Estamos usando as versões mais recentes
 # Por que nós?
 Esta plataforma está sendo desenvolvida para a primeira hackathon online brasileira chamada ** Open Hack ** , realizada por ** Shawee ** . Durante o primeiro dia do concurso, percebemos o quão difícil era fazer uma equipe online. Nos apresentaríamos principalmente dentro de um canal dedicado ao Discord, e procuraríamos pessoas com habilidades semelhantes e também profissionais de diferentes áreas, tentando encontrar equilíbrio em um grupo de cinco membros.
 
-# Como contribuir
--Faça um fork desse repositório;
--Cria a branch com sua feature: git checkout -b minha-feature;
--Faça commit das suas alterações: git commit -m 'feat: Minha nova feature';
--Faça push para a sua branch: git push origin minha-feature.
--Depois que o merge da sua pull request for feito, você pode deletar a sua branch.
+##  Como contribuir
+
+- Faça um fork desse repositório;
+- Cria a branch com sua feature: `git checkout -b minha-feature`;
+- Faça commit das suas alterações: `git commit -m 'feat: Minha nova feature'`;
+- Faça push para a sua branch: `git push origin minha-feature`.
+
+Depois que o merge da sua pull request for feito, você pode deletar a sua branch.
+
 
 # O problema era ...
 Os canais estavam cheios de apresentações e bate-papos, e era muito difícil acompanhar a conversa, e por algum tempo os usuários precisavam copiar sua biografia escrita agora para outras pessoas, já que não há lugar apropriado para fazer isso dentro do Discord.
